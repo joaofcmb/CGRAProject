@@ -11,7 +11,7 @@
 		this.cube = new MyUnitCubeQuad(this.scene);
 		this.prism = new MyPrism(this.scene, 4, 10);
 		this.square = new MyQuad(this.scene);
-		this.trapeze = new MyTrapeze(this.scene, 30, 30);
+		this.trapSolid = new MyTrapSolid(this.scene, 30, 30);
 
 		this.LRWheel = new MyWheel(this.scene);
 		this.LLWheel = new MyWheel(this.scene);
@@ -89,7 +89,7 @@
 			//this.scene.translate(0, .7/2, -LENGTH/2 + .3);
 			//this.scene.rotate(0.05, 1, 0, 0);
 			//this.scene.scale(WIDTH, .7, 0.6);
-			this.trapeze.display();
+			this.trapSolid.display();
 		this.scene.popMatrix();
 	};
  };

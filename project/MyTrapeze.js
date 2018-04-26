@@ -4,7 +4,7 @@
  */
 class MyTrapeze extends CGFobject
 {
-	constructor(scene, rAng, lAng)
+	constructor(scene, lAng, rAng)
 	{
 		super(scene);
 
@@ -17,8 +17,8 @@ class MyTrapeze extends CGFobject
 	initBuffers()
 	{
         this.vertices = [
-        	-0.5 - Math.cos(this.lAng * Math.PI / 180), -0.5, 0,
-            0.5 + Math.cos(this.rAng * Math.PI / 180), -0.5, 0,
+        	-0.5 - 1/Math.tan(this.lAng * Math.PI / 180), -0.5, 0,
+            0.5 + 1/Math.tan(this.rAng * Math.PI / 180), -0.5, 0,
             -0.5, 0.5, 0,
             0.5, 0.5, 0,
         ];
