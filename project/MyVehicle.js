@@ -11,7 +11,6 @@
 		this.cube = new MyUnitCubeQuad(this.scene);
 		this.prism = new MyPrism(this.scene, 4, 10);
 		this.square = new MyQuad(this.scene);
-		this.trapSolid = new MyTrapSolid(this.scene, 30, 30);
 
 		this.LRWheel = new MyWheel(this.scene);
 		this.LLWheel = new MyWheel(this.scene);
@@ -86,10 +85,19 @@
 		// BACK OF CAR
 		this.materialBody.apply();
 		this.scene.pushMatrix();
-			//this.scene.translate(0, .7/2, -LENGTH/2 + .3);
-			//this.scene.rotate(0.05, 1, 0, 0);
-			//this.scene.scale(WIDTH, .7, 0.6);
-			this.trapSolid.display();
+			this.bBumper = new MyTrapSolid(this.scene, 50, 60);
+			this.scene.translate(0, .1, -LENGTH/2 +.3);
+			this.scene.scale(WIDTH, .4, 0.4);
+			this.scene.rotate(90 * degToRad, 0, 1, 0);
+			this.scene.rotate(Math.PI, 0, 0, 1);
+			this.bBumper.display();
+		this.scene.popMatrix();
+		this.scene.pushMatrix();
+			this.scene.translate(0, .5, -LENGTH/2 +.3);
+			this.scene.scale(WIDTH, .5, .8);
+			this.scene.rotate(90 * degToRad, 0, 1, 0);
+			this.scene.rotate(Math.PI, 0, 0, 1);
+			this.cube.display();
 		this.scene.popMatrix();
 	};
  };
