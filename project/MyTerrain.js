@@ -2,9 +2,9 @@
 
 class MyTerrain extends CGFobject{
 
-	constructor(scene)
-	{
-		super(scene);
+  constructor(scene)
+  {
+    super(scene);
 
     this.terrain = new Plane(this.scene, 5, 0, 3, 0, 3);
 
@@ -14,16 +14,15 @@ class MyTerrain extends CGFobject{
     this.materialTerrain.setDiffuse(0.8, 0.8, 0.8, 1);
     this.materialTerrain.setShininess(20);
     this.materialTerrain.loadTexture("../resources/images/RockyDesert.png");
-	};
+  };
 
-	display()
-	{
+  display()
+  {
     this.materialTerrain.apply();
     this.scene.pushMatrix();
-      this.scene.rotate(-Math.PI/2, 1, 0, 0);
-      this.scene.scale(50, 50, 1);
-		  this.terrain.display();
-		this.scene.popMatrix();
-	};
-
+    this.scene.rotate(-Math.PI/2, 1, 0, 0);
+    this.scene.scale(50, 50, 1);
+    this.terrain.display();
+    this.scene.popMatrix();
+  };
 };
