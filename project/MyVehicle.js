@@ -11,6 +11,7 @@
 		this.cube = new MyUnitCubeQuad(this.scene);
 		this.prism = new MyPrism(this.scene, 4, 10);
 		this.square = new MyQuad(this.scene);
+		this.trapeze = new MyTrapeze(this.scene, 30, 30);
 
 		this.LRWheel = new MyWheel(this.scene);
 		this.LLWheel = new MyWheel(this.scene);
@@ -24,7 +25,7 @@
 	{
 		this.materialBody = new CGFappearance(this.scene);
 		this.materialBody.setSpecular(0.7, 0.7, 0.7, 1);
-		this.materialBody.setDiffuse(0.8, 0.8, 0.8, 1);
+		this.materialBody.setDiffuse(1, 1, 1, 1);
 	}
 
   	display()
@@ -46,34 +47,37 @@
 
 			Wheel diameter: around 0.7 units
 		*/
-		this.scene.pushMatrix();
-			this.scene.scale(1.8745, 0.1, 4.830);
-			this.scene.rotate(Math.PI/4, 0, 0, 1);
+		var LENGTH = 4.830;
+		var WHEELBASE = 2.760;
+		var WIDTH = 1.8745;
+		var HEIGHT = 1.541;
 
-			this.prism.display();
+		this.scene.pushMatrix();
+			this.scene.scale(WIDTH, 0.1, LENGTH);
+			this.cube.display();
 		this.scene.popMatrix();
 
 		// CAR WHEELS ---------------------------------
 		this.scene.pushMatrix();
-			this.scene.translate(.97, 0, 1);
+			this.scene.translate(WIDTH/2-.35, 0, -LENGTH*2/7)
 			this.scene.scale(0.35, 0.35, 0.35);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
 			this.LLWheel.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
-			this.scene.translate(.97, 0, 3.76);
+			this.scene.translate(WIDTH/2-.35, 0, -LENGTH*2/7+WHEELBASE);
 			this.scene.scale(0.35, 0.35, 0.35);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
 			this.ULWheel.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
-			this.scene.translate(-.97, 0, 1);
+			this.scene.translate(-WIDTH/2+.35, 0, -LENGTH*2/7);
 			this.scene.scale(0.35, 0.35, 0.35);
 			this.scene.rotate(-Math.PI/2, 0, 1, 0);
 			this.LRWheel.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
-			this.scene.translate(-.97, 0, 3.76);
+			this.scene.translate(-WIDTH/2+.35, 0, -LENGTH*2/7+WHEELBASE);
 			this.scene.scale(0.35, 0.35, 0.35);
 			this.scene.rotate(-Math.PI/2, 0, 1, 0);
 			this.URWheel.display();
@@ -82,10 +86,10 @@
 		// BACK OF CAR
 		this.materialBody.apply();
 		this.scene.pushMatrix();
-			this.scene.rotate(0.05, 1, 0, 0);
-			this.scene.scale(1.875, .7, 0.6);
-			this.scene.translate(0, .5, .5);
-			this.cube.display();
+			//this.scene.translate(0, .7/2, -LENGTH/2 + .3);
+			//this.scene.rotate(0.05, 1, 0, 0);
+			//this.scene.scale(WIDTH, .7, 0.6);
+			this.trapeze.display();
 		this.scene.popMatrix();
 	};
  };
