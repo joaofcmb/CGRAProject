@@ -4,7 +4,7 @@
 /** Represents a plane with nrDivs divisions along both axis, with center at (0,0) */
 class Plane extends CGFobject{
 
-	constructor(scene, nrDivs, maxS, maxT)
+	constructor(scene, nrDivs, minS, maxS, minT, maxT)
 	{
 		super(scene);
 
@@ -15,6 +15,9 @@ class Plane extends CGFobject{
 
 		this.maxS = maxS || 1.0;
 		this.maxT = maxT || 1.0;
+		this.minS = minS || 0;
+		this.minT = minT || 0;
+
 
 		this.patchLength = 1.0 / nrDivs;
 
