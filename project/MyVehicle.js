@@ -49,7 +49,6 @@
 		var LENGTH = 4.830;
 		var WHEELBASE = 2.760;
 		var WIDTH = 1.8745;
-		var HEIGHT = 1.541;
 
 		this.scene.pushMatrix();
 			this.scene.scale(WIDTH, 0.1, LENGTH);
@@ -82,21 +81,42 @@
 			this.URWheel.display();
 		this.scene.popMatrix();
 
-		// BACK OF CAR
+		// BACK OF CAR -----------------------------
 		this.materialBody.apply();
 		this.scene.pushMatrix();
-			this.bBumper = new MyTrapSolid(this.scene, 50, 60);
-			this.scene.translate(0, .1, -LENGTH/2 +.3);
-			this.scene.scale(WIDTH, .4, 0.4);
+			this.bBumper = new MyTrapSolid(this.scene, 75, 85);
+			this.scene.translate(0, 0, -LENGTH/2 +.3);
+			this.scene.scale(WIDTH, .2, .65);
 			this.scene.rotate(90 * degToRad, 0, 1, 0);
 			this.scene.rotate(Math.PI, 0, 0, 1);
 			this.bBumper.display();
+		this.scene.popMatrix();
+		this.scene.pushMatrix();
+			this.scene.translate(0, .2, -LENGTH/2 + .25);
+			this.scene.scale(WIDTH, .2, .9);
+			this.cube.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.translate(0, .5, -LENGTH/2 +.3);
 			this.scene.scale(WIDTH, .5, .8);
 			this.scene.rotate(90 * degToRad, 0, 1, 0);
 			this.scene.rotate(Math.PI, 0, 0, 1);
+			this.cube.display();
+		this.scene.popMatrix();
+
+		// MIDDLE OF CAR
+		this.scene.pushMatrix();
+			this.carTop = new MyTrapSolid(this.scene, 35, 50);
+			this.scene.translate(0, .975, -.5);
+			this.scene.scale(WIDTH, .6, 1);
+			this.scene.rotate(-Math.PI/2, 0, 1, 0);
+			this.carTop.display();
+		this.scene.popMatrix();
+		this.scene.pushMatrix();
+			//his.scene.translate(0, .5, -LENGTH/2 +.3);
+			//this.scene.scale(WIDTH, .5, .8);
+			//this.scene.rotate(90 * degToRad, 0, 1, 0);
+			//this.scene.rotate(Math.PI, 0, 0, 1);
 			this.cube.display();
 		this.scene.popMatrix();
 	};
