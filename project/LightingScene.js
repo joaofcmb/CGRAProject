@@ -33,7 +33,7 @@ class LightingScene extends CGFscene
 
 		this.axis = new CGFaxis(this);
 
-		this.ae86 = new MyVehicle(this);
+		this.vehicle = new MyVehicle(this);
 	};
 
 	initCameras()
@@ -87,7 +87,7 @@ class LightingScene extends CGFscene
 
 		// ---- BEGIN Scene drawing section
 
-		this.ae86.display();
+		this.vehicle.display();
 		
 		// ---- END Scene drawing section
 	};

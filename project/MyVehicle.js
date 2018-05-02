@@ -106,9 +106,9 @@
 
 		// MIDDLE OF CAR
 		this.scene.pushMatrix();
-			this.carTop = new MyTrapSolid(this.scene, 40, 50);
-			this.scene.translate(0, .9, -.65);
-			this.scene.scale(WIDTH, .45, 1.1);
+			this.carTop = new MyTrapSolid(this.scene, 40, 60);
+			this.scene.translate(0, .9, -.5);
+			this.scene.scale(WIDTH, .45, 1.2);
 			this.scene.rotate(-Math.PI/2, 0, 1, 0);
 			this.carTop.display();
 		this.scene.popMatrix();
@@ -124,6 +124,37 @@
 			this.scene.rotate(Math.PI, 0, 0, 1);
 			this.scene.rotate(-Math.PI/2, 0, 1, 0);
 			this.carBot.display();
+		this.scene.popMatrix();
+
+		// FRONT OF CAR
+		this.scene.pushMatrix();
+			this.fdBumper = new MyTrapSolid(this.scene, 80, 85);
+			this.scene.translate(0, 0.025, LENGTH/2 -.35);
+			this.scene.scale(WIDTH, .15, .60);
+			this.scene.rotate(-90 * degToRad, 0, 1, 0);
+			this.scene.rotate(Math.PI, 0, 0, 1);
+			this.fdBumper.display();
+		this.scene.popMatrix();
+		this.scene.pushMatrix();
+			this.fmBumper = new MyTrapSolid(this.scene, 90, 85);
+			this.scene.translate(0, 0.2, LENGTH/2 -.3);
+			this.scene.scale(WIDTH, .2, .8);
+			this.scene.rotate(-90 * degToRad, 0, 1, 0);
+			this.scene.rotate(Math.PI, 0, 0, 1);
+			this.fmBumper.display();
+		this.scene.popMatrix();
+		this.scene.pushMatrix();
+			this.fuBumper = new MyTrapSolid(this.scene, 90, 85);
+			this.scene.translate(0, 0.375, LENGTH/2 -.4);
+			this.scene.scale(WIDTH, .15, .60);
+			this.scene.rotate(-90 * degToRad, 0, 1, 0);
+			this.fuBumper.display();
+		this.scene.popMatrix();
+			this.scene.pushMatrix();
+			this.scene.translate(0, 0.464, LENGTH/3);
+			this.scene.rotate(9.3 * degToRad, 1, 0, 0);
+			this.scene.scale(WIDTH, .2, 1.4);
+			this.cube.display();
 		this.scene.popMatrix();
 	};
  };
