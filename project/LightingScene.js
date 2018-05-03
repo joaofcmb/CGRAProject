@@ -18,8 +18,8 @@ class LightingScene extends CGFscene
 		super.init(application);
 
 		this.setUpdatePeriod(100);
-		
-    	this.enableTextures(true);
+
+  	this.enableTextures(true);
 
 		this.initCameras();
 
@@ -34,6 +34,7 @@ class LightingScene extends CGFscene
 		this.axis = new CGFaxis(this);
 
 		this.vehicle = new MyVehicle(this);
+		this.terrain = new MyTerrain(this);
 	};
 
 	initCameras()
@@ -43,7 +44,7 @@ class LightingScene extends CGFscene
 
 	initLights()
 	{
-		this.setGlobalAmbientLight( 0.3, 0.3, 0.3, 1.0);
+		this.setGlobalAmbientLight(0.3, 0.3, 0.3, 1.0);
 
 		this.lights[0].setPosition(0, 10, 0, 1);
 		this.lights[0].enable();
@@ -67,6 +68,7 @@ class LightingScene extends CGFscene
 
 		// Clear image and depth buffer everytime we update the scene
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+		this.gl.clearColor(179/255,236/255,255/255,1);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 		// Initialize Model-View matrix as identity (no transformation)
@@ -86,9 +88,8 @@ class LightingScene extends CGFscene
 		// ---- END Background, camera and axis setup
 
 		// ---- BEGIN Scene drawing section
-
-		this.vehicle.display();
-		
+        this.vehicle.display();
+        this.terrain.display();
 		// ---- END Scene drawing section
 	};
 };
