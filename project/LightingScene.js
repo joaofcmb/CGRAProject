@@ -18,8 +18,8 @@ class LightingScene extends CGFscene
 		super.init(application);
 
 		this.setUpdatePeriod(100);
-		
-    	this.enableTextures(true);
+
+    this.enableTextures(true);
 
 		this.initCameras();
 
@@ -34,6 +34,9 @@ class LightingScene extends CGFscene
 		this.axis = new CGFaxis(this);
 
 		this.vehicle = new MyVehicle(this);
+
+		this.option1=true; this.option2=false; this.speed=3;
+
 	};
 
 	initCameras()
@@ -61,6 +64,11 @@ class LightingScene extends CGFscene
 			this.lights[i].update();
 	}
 
+	doSomething()
+	{
+		console.log("Doing something...");
+	};
+	
 	display()
 	{
 		// ---- BEGIN Background, camera and axis setup
@@ -88,7 +96,7 @@ class LightingScene extends CGFscene
 		// ---- BEGIN Scene drawing section
 
 		this.vehicle.display();
-		
+
 		// ---- END Scene drawing section
 	};
 };
