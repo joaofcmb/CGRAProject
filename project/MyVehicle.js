@@ -32,25 +32,50 @@
 		this.cube = new MyUnitCubeQuad(this.scene);
 		this.prism = new MyPrism(this.scene, 4, 10);
 		this.square = new MyQuad(this.scene);
+		this.semiSphere = new MySphere(this.scene, 10, 4);
 
 		this.LRWheel = new MyWheel(this.scene);
 		this.LLWheel = new MyWheel(this.scene);
 		this.URWheel = new MyWheel(this.scene);
 		this.ULWheel = new MyWheel(this.scene);
 
+		this.initSpecialSolids();
+
 		this.initMaterials();
 	};
+
+	initSpecialSolids()
+	{
+		this.bBumper = new MyTrapSolid(this.scene, 72, 85);
+
+		this.carTop = new MyTrapSolid(this.scene, 40, 60);
+		this.carBot = new MyTrapSolid(this.scene, 87, 87);
+
+		this.fdBumper = new MyTrapSolid(this.scene, 80, 85);
+		this.fmBumper = new MyTrapSolid(this.scene, 90, 85);
+		this.fuBumper = new MyTrapSolid(this.scene, 90, 85);
+
+		this.rightGlass = new MyTrapeze(this.scene, 80, 53);
+		this.leftGlass = new MyTrapeze(this.scene, 53, 80);	
+	}
 
 	initMaterials()
 	{
 		this.materialBody = new CGFappearance(this.scene);
 		this.materialBody.setSpecular(0.7, 0.7, 0.7, 1);
 		this.materialBody.setDiffuse(1, 1, 1, 1);
+
+		this.materialGlass = new CGFappearance(this.scene);
+		this.materialBody.setSpecular(.8, .8, .8, 1);
+		this.materialBody.setDiffuse(.8, .8, .8, 1);
+
 	}
 
   	display()
 	{
 		this.scene.pushMatrix();
+			this.scene.translate(0, .35, 0);
+
 			// CAR WHEELS ---------------------------------
 			this.scene.pushMatrix();
 				this.scene.translate(this.WIDTH/2-.35, 0, -this.LENGTH*2/7)
@@ -77,10 +102,11 @@
 				this.URWheel.display();
 			this.scene.popMatrix();
 
-			// BACK OF CAR -----------------------------
+			
 			this.materialBody.apply();
+
+			// BACK OF CAR -----------------------------
 			this.scene.pushMatrix();
-				this.bBumper = new MyTrapSolid(this.scene, 72, 85);
 				this.scene.translate(0, 0, -this.LENGTH/2 +.35);
 				this.scene.scale(this.WIDTH, .2, .60);
 				this.scene.rotate(90 * degToRad, 0, 1, 0);
@@ -102,7 +128,6 @@
 
 			// MIDDLE OF CAR
 			this.scene.pushMatrix();
-				this.carTop = new MyTrapSolid(this.scene, 40, 60);
 				this.scene.translate(0, .9, -.5);
 				this.scene.scale(this.WIDTH, .45, 1.2);
 				this.scene.rotate(-Math.PI/2, 0, 1, 0);
@@ -114,7 +139,6 @@
 				this.cube.display();
 			this.scene.popMatrix();
 			this.scene.pushMatrix();
-				this.carBot = new MyTrapSolid(this.scene, 87, 87);
 				this.scene.translate(0, .11, 0);
 				this.scene.scale(this.WIDTH, .5, 1.96);
 				this.scene.rotate(Math.PI, 0, 0, 1);
@@ -124,23 +148,20 @@
 
 			// FRONT OF CAR
 			this.scene.pushMatrix();
-				this.fdBumper = new MyTrapSolid(this.scene, 80, 85);
-				this.scene.translate(0, 0.025, this.LENGTH/2 -.35);
-				this.scene.scale(this.WIDTH, .15, .60);
+				this.scene.translate(0, 0.025, this.LENGTH/2 -.38);
+				this.scene.scale(this.WIDTH, .15, .55);
 				this.scene.rotate(-90 * degToRad, 0, 1, 0);
 				this.scene.rotate(Math.PI, 0, 0, 1);
 				this.fdBumper.display();
 			this.scene.popMatrix();
 			this.scene.pushMatrix();
-				this.fmBumper = new MyTrapSolid(this.scene, 90, 85);
-				this.scene.translate(0, 0.2, this.LENGTH/2 -.3);
-				this.scene.scale(this.WIDTH, .2, .8);
+				this.scene.translate(0, 0.2, this.LENGTH/2 -.35);
+				this.scene.scale(this.WIDTH, .2, .7);
 				this.scene.rotate(-90 * degToRad, 0, 1, 0);
 				this.scene.rotate(Math.PI, 0, 0, 1);
 				this.fmBumper.display();
 			this.scene.popMatrix();
 			this.scene.pushMatrix();
-				this.fuBumper = new MyTrapSolid(this.scene, 90, 85);
 				this.scene.translate(0, 0.375, this.LENGTH/2 -.4);
 				this.scene.scale(this.WIDTH, .15, .60);
 				this.scene.rotate(-90 * degToRad, 0, 1, 0);
@@ -153,7 +174,37 @@
 				this.cube.display();
 			this.scene.popMatrix();
 
-			//this.scene.translate(0, 1.5, 0);
+			// WINDOWS 
+			this.materialGlass.apply();
+			// Windshield (Front)
+			this.scene.pushMatrix();
+				this.scene.translate(0, .9, .45);
+				this.scene.rotate(-57 * degToRad, 1, 0, 0);
+				this.scene.scale(this.WIDTH - .1, .7, 1.2);
+				this.square.display();
+			this.scene.popMatrix();
+			// Rear Window
+			this.scene.pushMatrix();
+				this.scene.translate(0, .98, -1.6);
+				this.scene.rotate(253 * degToRad, 1, 0, 0);
+				this.scene.scale(this.WIDTH - .1, 1, 1.2);
+				this.square.display();
+			this.scene.popMatrix();
+			// Side Windows
+			this.scene.pushMatrix();
+				this.scene.translate(-this.WIDTH/2, .9, -.3);
+				this.scene.scale(1, .4, .8)
+				this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+				this.rightGlass.display();
+			this.scene.popMatrix();
+			this.scene.pushMatrix();
+				this.scene.translate(this.WIDTH/2 +.01, .9, -.3);
+				this.scene.scale(1, .4, .8);
+				this.scene.rotate(Math.PI, 0, 1, 0);
+				this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+				this.leftGlass.display();
+			this.scene.popMatrix();
+
 
 		this.scene.popMatrix();
 	};
