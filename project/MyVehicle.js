@@ -55,6 +55,9 @@
 		this.fmBumper = new MyTrapSolid(this.scene, 90, 85);
 		this.fuBumper = new MyTrapSolid(this.scene, 90, 85);
 
+		this.leftMirror = new MyTrapSolid(this.scene, 90, 45);
+		this.rightMirror = new MyTrapSolid(this.scene, 45, 90);
+
 		this.rightGlass = new MyTrapeze(this.scene, 80, 53);
 		this.leftGlass = new MyTrapeze(this.scene, 53, 80);	
 	}
@@ -167,11 +170,25 @@
 				this.scene.rotate(-90 * degToRad, 0, 1, 0);
 				this.fuBumper.display();
 			this.scene.popMatrix();
-				this.scene.pushMatrix();
+			this.scene.pushMatrix();
 				this.scene.translate(0, 0.464, this.LENGTH/3);
 				this.scene.rotate(9.3 * degToRad, 1, 0, 0);
 				this.scene.scale(this.WIDTH, .2, 1.4);
 				this.cube.display();
+			this.scene.popMatrix();
+			
+			// SIDE MIRRORS
+			this.scene.pushMatrix();
+				this.scene.translate(this.WIDTH/2 -.02, .75, .5);
+				this.scene.scale(.1, .1, .1);
+				this.scene.rotate(Math.PI / 2, 1, 0, 0);
+				this.leftMirror.display();
+			this.scene.popMatrix();
+			this.scene.pushMatrix();
+				this.scene.translate(-this.WIDTH/2 +.02, .75, .5);
+				this.scene.scale(.1, .1, .1);
+				this.scene.rotate(Math.PI / 2, 1, 0, 0);
+				this.rightMirror.display();
 			this.scene.popMatrix();
 
 			// WINDOWS 
@@ -204,7 +221,6 @@
 				this.scene.rotate(-Math.PI / 2, 0, 1, 0);
 				this.leftGlass.display();
 			this.scene.popMatrix();
-
 
 		this.scene.popMatrix();
 	};
