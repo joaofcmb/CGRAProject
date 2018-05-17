@@ -209,7 +209,7 @@
 			this.scene.popMatrix();
 			// Side Windows
 			this.scene.pushMatrix();
-				this.scene.translate(-this.WIDTH/2, .9, -.3);
+				this.scene.translate(-this.WIDTH/2 -.01, .9, -.3);
 				this.scene.scale(1, .4, .8)
 				this.scene.rotate(-Math.PI / 2, 0, 1, 0);
 				this.rightGlass.display();
