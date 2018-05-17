@@ -47,7 +47,7 @@ class LightingScene extends CGFscene
 						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
 						]; 
 		
-		this.vehicle = new MyVehicle(this);
+		this.vehicle = new MyVehicle(this, 15, 0);
 		this.terrain = new MyTerrain(this, 8, this.altimetry);
 	};
 
@@ -63,7 +63,7 @@ class LightingScene extends CGFscene
 		this.lights[0].setPosition(0, 10, 0, 1);
 		this.lights[0].enable();
 
-		this.lights[1].setPosition(300, 0, 0, 1);
+		this.lights[1].setPosition(30, 0, 0, 1);
 		this.lights[1].enable();
 
 		this.lights[2].setPosition(0, 0, 10, 1);
@@ -102,10 +102,7 @@ class LightingScene extends CGFscene
 		// ---- END Background, camera and axis setup
 
 		// ---- BEGIN Scene drawing section
-		this.pushMatrix();
-			this.translate(15, 0, 0);
-        	this.vehicle.display();
-       	this.popMatrix();
+		this.vehicle.display();
         this.terrain.display();
 		// ---- END Scene drawing section
 	};

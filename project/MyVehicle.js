@@ -4,7 +4,7 @@
  */
  class MyVehicle extends CGFobject
  {
-	constructor(scene)
+	constructor(scene, x, y)
 	{
 		/* CAR CHASSIS (Toyota Sprinter Trueno AE86)
 			Real Car Specs:
@@ -42,6 +42,8 @@
 		this.initSpecialSolids();
 
 		this.initMaterials();
+
+		this.initMovement(x || 0, y || 0);
 	};
 
 	initSpecialSolids()
@@ -74,10 +76,22 @@
 
 	}
 
+	initMovement(x, y)
+	{
+		this.xPos = x;
+		this.zPos = y;
+		this.ang = 0;
+
+		this.xVel = 0;
+		this.zVel = 0;
+		this.angVel = 0;
+	}
+
   	display()
 	{
 		this.scene.pushMatrix();
-			this.scene.translate(0, .35, 0);
+			this.scene.rotate(this.ang * degToRad, 0, 1, 0);
+			this.scene.translate(this.xPos, .35, this.zPos);
 
 			// CAR WHEELS ---------------------------------
 			this.scene.pushMatrix();
