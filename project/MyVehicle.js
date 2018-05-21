@@ -134,7 +134,7 @@
 
 		// update pop up headlights angle
 		if (isPopped)	this.popUpAngle = max(0, this.popUpAngle - this.POPUP);
-		else			this.popUpAngle = min(this.popUpAngle + this.POPUP, 90);
+		else			this.popUpAngle = min(this.popUpAngle + this.POPUP, 70);
 
 	}
 	
@@ -243,13 +243,33 @@
 
 			// POP UP HEADLIGHTS
 			this.scene.pushMatrix();
-				this.scene.translate(-this.WIDTH/2, 0.375, this.LENGTH/2 -.25);
-				this.scene.translate(0, 0, this.WIDTH * .2 -Math.cos(-40 * degToRad));
-				this.scene.rotate(-40 * degToRad, 1, 0, 0);
+				this.scene.translate(-this.WIDTH/2 + .19, 0.375, this.LENGTH/2 -.27 + .001 * this.popUpAngle);
+				this.scene.rotate(-this.popUpAngle * degToRad, 1, 0, 0);
 				this.scene.pushMatrix();
 					this.scene.scale(this.WIDTH *.2, .15, this.WIDTH *.2);
 					this.scene.rotate(-90 * degToRad, 0, 1, 0);
 					this.upperLight.display();
+				this.scene.popMatrix();
+				this.scene.pushMatrix();
+					this.scene.translate(0, -.07, 0.01);
+					this.scene.rotate(-20 * degToRad, 1, 0, 0);
+					this.scene.scale(this.WIDTH *.2, .15, this.WIDTH *.2);
+					this.cube.display();
+				this.scene.popMatrix();
+			this.scene.popMatrix();
+			this.scene.pushMatrix();
+				this.scene.translate(+this.WIDTH/2 - .19, 0.375, this.LENGTH/2 -.27 + .001 * this.popUpAngle);
+				this.scene.rotate(-this.popUpAngle * degToRad, 1, 0, 0);
+				this.scene.pushMatrix();
+					this.scene.scale(this.WIDTH *.2, .15, this.WIDTH *.2);
+					this.scene.rotate(-90 * degToRad, 0, 1, 0);
+					this.upperLight.display();
+				this.scene.popMatrix();
+				this.scene.pushMatrix();
+					this.scene.translate(0, -.07, 0.01);
+					this.scene.rotate(-20 * degToRad, 1, 0, 0);
+					this.scene.scale(this.WIDTH *.2, .15, this.WIDTH *.2);
+					this.cube.display();
 				this.scene.popMatrix();
 			this.scene.popMatrix();
 
