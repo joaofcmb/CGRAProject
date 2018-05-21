@@ -30,15 +30,16 @@
 		this.WHEELBASE 	= 2.760;
 		this.WIDTH 		= 1.8745;
 
-		// Physics Constants
+		// Physics / Animation Constants
 		this.THROTTLE	= 3; 	// Positive acceleration of vehicle
 		this.BRAKES		= 1; 	// Negative acceleration of vehicle
 		this.STEERING	= 2; 	// Angular Velocity of steering
-		this.TURNBACK	= .5;	// Angular Velocity of turn stabalization		
+		this.TURNBACK	= 1;	// Angular Velocity of turn stabalization
+		this.POPUP		= 1;	// Angular Velocity of pop up headlights	
 
-		this.cube = new MyUnitCubeQuad(this.scene);
-		this.prism = new MyPrism(this.scene, 4, 10);
-		this.square = new MyQuad(this.scene);
+		this.cube 		= new MyUnitCubeQuad(this.scene);
+		this.prism 		= new MyPrism(this.scene, 4, 10);
+		this.square 	= new MyQuad(this.scene);
 		this.semiSphere = new MySphere(this.scene, 10, 4);
 
 		this.LRWheel = new MyWheel(this.scene);
@@ -51,6 +52,10 @@
 		this.initMaterials();
 
 		this.initMovement(x || 0, y || 0);
+
+		// Pop Up Headlights
+		this.popUpAngle = 0;
+		this.isPopped = false;
 	};
 
 	initSpecialSolids()
@@ -64,11 +69,13 @@
 		this.fmBumper = new MyTrapSolid(this.scene, 90, 85);
 		this.fuBumper = new MyTrapSolid(this.scene, 90, 85);
 
+		this.upperLight = new MyTrapSolid(this.scene, 90, 85);	
+
 		this.leftMirror = new MyTrapSolid(this.scene, 90, 45);
 		this.rightMirror = new MyTrapSolid(this.scene, 45, 90);
 
 		this.rightGlass = new MyTrapeze(this.scene, 80, 53);
-		this.leftGlass = new MyTrapeze(this.scene, 53, 80);	
+		this.leftGlass = new MyTrapeze(this.scene, 53, 80);
 	}
 
 	initMaterials()
@@ -78,8 +85,8 @@
 		this.materialBody.setDiffuse(1, 1, 1, 1);
 
 		this.materialGlass = new CGFappearance(this.scene);
-		this.materialBody.setSpecular(.8, .8, .8, 1);
-		this.materialBody.setDiffuse(.8, .8, .8, 1);
+		this.materialGlass.setSpecular(.8, .8, .8, 1);
+		this.materialGlass.setDiffuse(.8, .8, .8, 1);
 
 	}
 
@@ -93,34 +100,48 @@
 		// linear velocity of car. Direction depends on the turn angle 
 		this.velocity = 0;
 	}
-
+	
 	// External Methods (To be accessed by other classes)
-
-	updateVelocity(onThrottle, onBrakes) {
+	updateVelocity(onThrottle, onBrakes) 
+	{
 		if (onThrottle)		this.velocity += this.THROTTLE;
 		if (onBrakes)		this.velocity -= this.BRAKES;
 	}
 
-	updateTurnAngle(isSteeringLeft, isSteeringRight) {
-		if (!(isSteeringLeft && isSteeringRight)) {
+	updateTurnAngle(isSteeringLeft, isSteeringRight) 
+	{
+		if (!(isSteeringLeft && isSteeringRight)) 
+		{
 			this.turnAng += this.turnAng > 0 ? -this.TURNBACK: this.TURNBACK;
 		}
-		else {
+		else 
+		{
 			if (isSteeringLeft)		this.turnAng += this.STEERING;
 			if (isSteeringRight)	this.turnAng -= this.STEERING;
 		}
 	}
 
-	update(delta) {
+	togglePopUpHeadlights()
+	{
+		this.isPopped = !this.isPopped;
+	}
+
+	update(delta) 
+	{
 		// update car position based on the current velocity and turn angle
 		this.xPos += this.velocity * delta * Math.cos(turnAng * degToRad);
 		this.yPos += this.velocity * delta * Math.sin(turnAng * degToRad);
-	}
 
+		// update pop up headlights angle
+		if (isPopped)	this.popUpAngle = max(0, this.popUpAngle - this.POPUP);
+		else			this.popUpAngle = min(this.popUpAngle + this.POPUP, 90);
+
+	}
+	
   	display()
 	{
 		this.scene.pushMatrix();
-			this.scene.rotate(this.ang * degToRad, 0, 1, 0);
+			this.scene.rotate(this.turnAng * degToRad, 0, 1, 0);
 			this.scene.translate(this.xPos, .35, this.zPos);
 
 			// CAR WHEELS ---------------------------------
@@ -148,8 +169,7 @@
 				this.scene.rotate(-Math.PI/2, 0, 1, 0);
 				this.URWheel.display();
 			this.scene.popMatrix();
-
-			
+	
 			this.materialBody.apply();
 
 			// BACK OF CAR -----------------------------
@@ -210,7 +230,7 @@
 			this.scene.popMatrix();
 			this.scene.pushMatrix();
 				this.scene.translate(0, 0.375, this.LENGTH/2 -.4);
-				this.scene.scale(this.WIDTH, .15, .60);
+				this.scene.scale(this.WIDTH *.6, .15, .60);
 				this.scene.rotate(-90 * degToRad, 0, 1, 0);
 				this.fuBumper.display();
 			this.scene.popMatrix();
@@ -220,7 +240,19 @@
 				this.scene.scale(this.WIDTH, .2, 1.4);
 				this.cube.display();
 			this.scene.popMatrix();
-			
+
+			// POP UP HEADLIGHTS
+			this.scene.pushMatrix();
+				this.scene.translate(-this.WIDTH/2, 0.375, this.LENGTH/2 -.25);
+				this.scene.translate(0, 0, this.WIDTH * .2 -Math.cos(-40 * degToRad));
+				this.scene.rotate(-40 * degToRad, 1, 0, 0);
+				this.scene.pushMatrix();
+					this.scene.scale(this.WIDTH *.2, .15, this.WIDTH *.2);
+					this.scene.rotate(-90 * degToRad, 0, 1, 0);
+					this.upperLight.display();
+				this.scene.popMatrix();
+			this.scene.popMatrix();
+
 			// SIDE MIRRORS
 			this.scene.pushMatrix();
 				this.scene.translate(this.WIDTH/2 -.02, .75, .5);

@@ -18,12 +18,6 @@ class MyTerrain extends Plane{
 
     this.initBuffers();
     this.initGLBuffers();
-
-    
-    for (var i = 0; i < this.vertices.length; i++)
-    {
-      console.log(this.vertices[i]);
-    }
   };
 
   initBuffers()
