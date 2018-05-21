@@ -35,10 +35,26 @@ class LightingScene extends CGFscene
 
 		this.axis = new CGFaxis(this);
 
-		this.vehicle = new MyVehicle(this);
-
-		this.luz1=true;
+		//example for nrDivs = 8 -> grid of 9x9 vertices     
+		this.altimetry =[[6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],   
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 0.0, 0.0, 3.4, 4.7, 6.5],
+						]; 
+		
+		this.vehicle = new MyVehicle(this, 15, 0);
+		this.terrain = new MyTerrain(this, 8, this.altimetry);
+    
+    this.luz1=true;
 		this.luz2=true;
+    
 	};
 
 	initCameras()
@@ -48,12 +64,12 @@ class LightingScene extends CGFscene
 
 	initLights()
 	{
-		this.setGlobalAmbientLight( 0.3, 0.3, 0.3, 1.0);
+		this.setGlobalAmbientLight(0.3, 0.3, 0.3, 1.0);
 
 		this.lights[0].setPosition(0, 10, 0, 1);
 		this.lights[0].enable();
 
-		this.lights[1].setPosition(10, 0, 0, 1);
+		this.lights[1].setPosition(30, 0, 0, 1);
 		this.lights[1].enable();
 
 		this.lights[2].setPosition(0, 0, 10, 1);
@@ -121,6 +137,7 @@ class LightingScene extends CGFscene
 
 		// Clear image and depth buffer everytime we update the scene
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+		this.gl.clearColor(179/255,236/255,255/255,1);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 		// Initialize Model-View matrix as identity (no transformation)
@@ -136,7 +153,6 @@ class LightingScene extends CGFscene
 		// ---- END Background, camera and axis setup
 
 		// ---- BEGIN Scene drawing section
-
 		this.vehicle.display();
 
 		this.lightsControl();
@@ -144,6 +160,8 @@ class LightingScene extends CGFscene
 		if(axisControl){
 			this.axis.display();
 		}
+    this.terrain.display();
+    
 		// ---- END Scene drawing section
 	};
 };
