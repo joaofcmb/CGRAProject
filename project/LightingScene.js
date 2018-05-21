@@ -6,6 +6,8 @@ var BOARD_HEIGHT = 4.0;
 var BOARD_A_DIVISIONS = 300;
 var BOARD_B_DIVISIONS = 4;
 
+var axisControl = true;
+
 class LightingScene extends CGFscene
 {
 	constructor()
@@ -35,8 +37,8 @@ class LightingScene extends CGFscene
 
 		this.vehicle = new MyVehicle(this);
 
-		this.option1=true; this.option2=false; this.speed=3;
-
+		this.luz1=true;
+		this.luz2=true;
 	};
 
 	initCameras()
@@ -56,7 +58,12 @@ class LightingScene extends CGFscene
 
 		this.lights[2].setPosition(0, 0, 10, 1);
 		this.lights[2].enable();
+
 	};
+
+	update(currTime){
+		this.checkKeys();
+	}
 
 	updateLights()
 	{
@@ -64,11 +71,50 @@ class LightingScene extends CGFscene
 			this.lights[i].update();
 	}
 
-	doSomething()
+
+	lightsControl(){
+		if (this.luz1){
+			this.lights[1].enable();
+		}
+		else{
+			this.lights[1].disable();
+		}
+
+		if (this.luz2){
+			this.lights[2].enable();
+		}
+		else{
+			this.lights[2].disable();
+		}
+	}
+
+	eixos(){
+			if(axisControl){
+				axisControl = false
+			}
+			else{
+				axisControl = true;
+			}
+	}
+
+	checkKeys()
 	{
-		console.log("Doing something...");
-	};
-	
+		var text="Keys pressed: ";
+		var keysPressed=false;
+		if (this.gui.isKeyPressed("KeyW"))
+	{
+		text+=" W ";
+		keysPressed=true;
+	}
+	if (this.gui.isKeyPressed("KeyS"))
+	{
+		text+=" S ";
+		keysPressed=true;
+	}
+	if (keysPressed)
+		console.log(text);
+	}
+
 	display()
 	{
 		// ---- BEGIN Background, camera and axis setup
@@ -87,16 +133,17 @@ class LightingScene extends CGFscene
 		// Update all lights used
 		this.updateLights();
 
-
-		// Draw axis
-		this.axis.display();
-
 		// ---- END Background, camera and axis setup
 
 		// ---- BEGIN Scene drawing section
 
 		this.vehicle.display();
 
+		this.lightsControl();
+
+		if(axisControl){
+			this.axis.display();
+		}
 		// ---- END Scene drawing section
 	};
 };
