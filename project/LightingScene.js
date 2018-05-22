@@ -21,7 +21,7 @@ class LightingScene extends CGFscene
 
 		this.setUpdatePeriod(100);
 
-    this.enableTextures(true);
+   		this.enableTextures(true);
 
 		this.initCameras();
 
@@ -52,7 +52,7 @@ class LightingScene extends CGFscene
 		this.vehicle = new MyVehicle(this, 15, 0);
 		this.terrain = new MyTerrain(this, 8, this.altimetry);
     
-    this.luz1=true;
+    	this.luz1=true;
 		this.luz2=true;
     
 	};
@@ -78,7 +78,13 @@ class LightingScene extends CGFscene
 	};
 
 	update(currTime){
+		this.lastTime = this.lastTime || 0;
+		this.deltaTime = currTime - this.lastTime;
+		this.lastTime = currTime;
+
 		this.checkKeys();
+
+		this.vehicle.update(this.deltaTime);
 	}
 
 	updateLights()
@@ -88,15 +94,16 @@ class LightingScene extends CGFscene
 	}
 
 
-	lightsControl(){
-		if (this.luz1){
+	lightsControl()
+	{
+		if (this.luz1) {
 			this.lights[1].enable();
 		}
 		else{
 			this.lights[1].disable();
 		}
 
-		if (this.luz2){
+		if (this.luz2) {
 			this.lights[2].enable();
 		}
 		else{
@@ -104,13 +111,14 @@ class LightingScene extends CGFscene
 		}
 	}
 
-	eixos(){
-			if(axisControl){
-				axisControl = false
-			}
-			else{
-				axisControl = true;
-			}
+	eixos()
+	{
+		if(axisControl){
+			axisControl = false
+		}
+		else{
+			axisControl = true;
+		}
 	}
 
 	checkKeys()
@@ -118,17 +126,35 @@ class LightingScene extends CGFscene
 		var text="Keys pressed: ";
 		var keysPressed=false;
 		if (this.gui.isKeyPressed("KeyW"))
-	{
-		text+=" W ";
-		keysPressed=true;
-	}
-	if (this.gui.isKeyPressed("KeyS"))
-	{
-		text+=" S ";
-		keysPressed=true;
-	}
-	if (keysPressed)
-		console.log(text);
+		{
+			text+=" W ";
+			keysPressed=true;
+
+			this.vehicle.throttle();
+		}
+		if (this.gui.isKeyPressed("KeyS"))
+		{
+			text+=" S ";
+			keysPressed=true;
+
+			this.vehicle.brake();
+		}
+		if (this.gui.isKeyPressed("KeyA"))
+		{
+			text+=" A ";
+			keysPressed=true;
+
+			this.vehicle.turnLeft();
+		}
+		if (this.gui.isKeyPressed("KeyD"))
+		{
+			text+=" D ";
+			keysPressed=true;
+
+			this.vehicle.turnRight();
+		}
+		if (keysPressed)
+			console.log(text);
 	}
 
 	display()
@@ -157,7 +183,7 @@ class LightingScene extends CGFscene
 
 		this.lightsControl();
 
-		if(axisControl){
+		if(axisControl) {
 			this.axis.display();
 		}
     this.terrain.display();

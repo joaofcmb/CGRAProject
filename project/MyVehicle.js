@@ -31,11 +31,11 @@
 		this.WIDTH 		= 1.8745;
 
 		// Physics / Animation Constants
-		this.THROTTLE	= 3; 	// Positive acceleration of vehicle
-		this.BRAKES		= 1; 	// Negative acceleration of vehicle
-		this.STEERING	= 2; 	// Angular Velocity of steering
-		this.TURNBACK	= 1;	// Angular Velocity of turn stabalization
-		this.POPUP		= 1;	// Angular Velocity of pop up headlights	
+		this.THROTTLE	= .001; 	// Positive acceleration of vehicle
+		this.BRAKES		= .0005; 	// Negative acceleration of vehicle
+		this.STEERING	= .01; 		// Angular Velocity of steering
+		this.TURNBACK	= .005;		// Angular Velocity of turn stabalization
+		this.POPUP		= 1;		// Angular Velocity of pop up headlights	
 
 		this.cube 		= new MyUnitCubeQuad(this.scene);
 		this.prism 		= new MyPrism(this.scene, 4, 10);
@@ -92,33 +92,42 @@
 
 	initMovement(x, y)
 	{
-		this.xPos = x;
-		this.zPos = y;
+		this.xCarPos = x;
+		this.zCarPos = y;
+		this.carAng = 0;
+
+		this.xPos = 0;
+		this.zPos = 0;
 
 		// angle of front wheels in degrees in respect to the front of the car
 		this.turnAng = 0;
 		// linear velocity of car. Direction depends on the turn angle 
 		this.velocity = 0;
-	}
-	
-	// External Methods (To be accessed by other classes)
-	updateVelocity(onThrottle, onBrakes) 
-	{
-		if (onThrottle)		this.velocity += this.THROTTLE;
-		if (onBrakes)		this.velocity -= this.BRAKES;
+
+		this.turning = false;
 	}
 
-	updateTurnAngle(isSteeringLeft, isSteeringRight) 
+	// External Methods (To be accessed by other classes)
+	throttle() 
 	{
-		if (!(isSteeringLeft && isSteeringRight)) 
-		{
-			this.turnAng += this.turnAng > 0 ? -this.TURNBACK: this.TURNBACK;
-		}
-		else 
-		{
-			if (isSteeringLeft)		this.turnAng += this.STEERING;
-			if (isSteeringRight)	this.turnAng -= this.STEERING;
-		}
+		this.velocity += this.THROTTLE;
+	}
+
+	brake()
+	{
+		this.velocity -= this.BRAKES;
+	}
+
+	turnLeft()
+	{
+		this.turnAng += this.STEERING;
+		this.turning = true;
+	}
+
+	turnRight()
+	{
+		this.turnAng -= this.STEERING;
+		this.turning = true;
 	}
 
 	togglePopUpHeadlights()
@@ -128,21 +137,35 @@
 
 	update(delta) 
 	{
+		// stabilize turning angle
+		if (this.turning) 	this.turning = false; 
+		else { 	
+			if (this.turnAng > 0) {
+				this.turnAng -= this.TURNBACK;
+				if (this.turnAng < 0)	this.turnAng = 0;
+			}
+			else {
+				this.turnAng += this.TURNBACK;
+				if (this.turnAng > 0)	this.turnAng = 0;
+			}
+		}
+
 		// update car position based on the current velocity and turn angle
-		this.xPos += this.velocity * delta * Math.cos(turnAng * degToRad);
-		this.yPos += this.velocity * delta * Math.sin(turnAng * degToRad);
 
-		// update pop up headlights angle
-		if (isPopped)	this.popUpAngle = max(0, this.popUpAngle - this.POPUP);
-		else			this.popUpAngle = min(this.popUpAngle + this.POPUP, 70);
+		// get position delta from velocity and apply it to car's facing angle
+		this.xCarPos += this.velocity * delta * Math.sin(this.carAng * degToRad);
+		this.zCarPos += this.velocity * delta * Math.cos(this.carAng * degToRad);
 
+		this.carAng += this.turnAng;
+
+		// TODO update pop up headlights angle
 	}
 	
   	display()
 	{
 		this.scene.pushMatrix();
-			this.scene.rotate(this.turnAng * degToRad, 0, 1, 0);
-			this.scene.translate(this.xPos, .35, this.zPos);
+			this.scene.translate(this.xCarPos, .35, this.zCarPos);
+			this.scene.rotate(this.carAng, 0, 1, 0);
 
 			// CAR WHEELS ---------------------------------
 			this.scene.pushMatrix();
