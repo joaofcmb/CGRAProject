@@ -19,7 +19,7 @@ class LightingScene extends CGFscene
 	{
 		super.init(application);
 
-		this.setUpdatePeriod(100);
+		this.setUpdatePeriod(50);
 
    		this.enableTextures(true);
 
@@ -152,6 +152,13 @@ class LightingScene extends CGFscene
 			keysPressed=true;
 
 			this.vehicle.turnRight();
+		}
+		if (this.gui.isKeyPressed("KeyL"))
+		{
+			text+=" L ";
+			keysPressed=true;
+
+			this.vehicle.togglePopUpHeadlights();
 		}
 		if (keysPressed)
 			console.log(text);

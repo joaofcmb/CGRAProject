@@ -34,11 +34,12 @@
 		this.THROTTLE	= .001; 	// Positive acceleration of vehicle
 		this.BRAKES		= .001; 	// Negative acceleration of vehicle
 
-		this.STEERING	= 4; 		// Angular Velocity of steering
+		this.STEERING	= 4; 		// Angular Velocity of steering (independent of delta)
 		this.TURNANGLE  = 40		// Max steering angle for car
-		this.TURNBACK	= 2;		// Angular Velocity of turn stabalization
+		this.TURNBACK	= 2;		// Angular Velocity of turn stabalization (independent of delta)
 
-		this.POPUP		= 1;		// Angular Velocity of pop up headlights	
+		this.POPUP		= .05;		// Angular Velocity of pop up headlights
+		this.MAXPOPUP 	= 70;	
 
 		this.cube 		= new MyUnitCubeQuad(this.scene);
 		this.prism 		= new MyPrism(this.scene, 4, 10);
@@ -58,7 +59,9 @@
 
 		// Pop Up Headlights
 		this.popUpAngle = 0;
+
 		this.isPopped = false;
+		this.isPopping = false;
 	};
 
 	initSpecialSolids()
@@ -136,6 +139,7 @@
 	togglePopUpHeadlights()
 	{
 		this.isPopped = !this.isPopped;
+		this.isPopping = true;
 	}
 
 	update(delta) 
@@ -165,11 +169,20 @@
 
 			this.xCarPos += deltaPos * Math.sin(this.carAng * degToRad);
 			this.zCarPos += deltaPos * Math.cos(this.carAng * degToRad);
-
-			// Update car angle depending on angle of steering if moving
 		}
 
-		// TODO update pop up headlights angle
+		// update pop up headlights angle
+		if (this.isPopping) {
+			var deltaPopUp = this.POPUP * delta;
+			
+			if (this.isPopped)	
+				this.popUpAngle = Math.min(this.popUpAngle + deltaPopUp, this.MAXPOPUP);
+			else
+				this.popUpAngle = Math.max(this.popUpAngle - deltaPopUp, 0);
+			
+			if (this.popUpAngle == 0 || this.popUpAngle == this.MAXPOPUP)
+				this.isPopping = false;
+		}
 	}
 	
   	display()
