@@ -32,9 +32,12 @@
 
 		// Physics / Animation Constants
 		this.THROTTLE	= .001; 	// Positive acceleration of vehicle
-		this.BRAKES		= .0005; 	// Negative acceleration of vehicle
-		this.STEERING	= .01; 		// Angular Velocity of steering
-		this.TURNBACK	= .005;		// Angular Velocity of turn stabalization
+		this.BRAKES		= .001; 	// Negative acceleration of vehicle
+
+		this.STEERING	= 4; 		// Angular Velocity of steering
+		this.TURNANGLE  = 40		// Max steering angle for car
+		this.TURNBACK	= 2;		// Angular Velocity of turn stabalization
+
 		this.POPUP		= 1;		// Angular Velocity of pop up headlights	
 
 		this.cube 		= new MyUnitCubeQuad(this.scene);
@@ -120,13 +123,13 @@
 
 	turnLeft()
 	{
-		this.turnAng += this.STEERING;
+		this.turnAng = Math.min(this.turnAng + this.STEERING, this.TURNANGLE);
 		this.turning = true;
 	}
 
 	turnRight()
 	{
-		this.turnAng -= this.STEERING;
+		this.turnAng = Math.max(this.turnAng - this.STEERING, -this.TURNANGLE);
 		this.turning = true;
 	}
 
@@ -150,13 +153,21 @@
 			}
 		}
 
-		// update car position based on the current velocity and turn angle
+		// get position delta and turn delta and apply it to car		
+		var deltaPos = this.velocity * delta;
 
-		// get position delta from velocity and apply it to car's facing angle
-		this.xCarPos += this.velocity * delta * Math.sin(this.carAng * degToRad);
-		this.zCarPos += this.velocity * delta * Math.cos(this.carAng * degToRad);
+		var oldTurnAng = oldTurnAng || 0;
+		var deltaTurn = this.turnAng - oldTurnAng;
+		oldTurnAng = this.turnAng;
 
-		this.carAng += this.turnAng;
+		if (deltaPos != 0) {
+			this.carAng += deltaTurn * deltaPos;
+
+			this.xCarPos += deltaPos * Math.sin(this.carAng * degToRad);
+			this.zCarPos += deltaPos * Math.cos(this.carAng * degToRad);
+
+			// Update car angle depending on angle of steering if moving
+		}
 
 		// TODO update pop up headlights angle
 	}
@@ -165,7 +176,7 @@
 	{
 		this.scene.pushMatrix();
 			this.scene.translate(this.xCarPos, .35, this.zCarPos);
-			this.scene.rotate(this.carAng, 0, 1, 0);
+			this.scene.rotate(this.carAng * degToRad, 0, 1, 0);
 
 			// CAR WHEELS ---------------------------------
 			this.scene.pushMatrix();
@@ -177,7 +188,7 @@
 			this.scene.pushMatrix();
 				this.scene.translate(this.WIDTH/2-.35, 0, -this.LENGTH*2/7+this.WHEELBASE);
 				this.scene.scale(0.35, 0.35, 0.35);
-				this.scene.rotate(Math.PI/2, 0, 1, 0);
+				this.scene.rotate(Math.PI/2 + this.turnAng * degToRad, 0, 1, 0);
 				this.ULWheel.display();
 			this.scene.popMatrix();
 			this.scene.pushMatrix();
@@ -189,7 +200,7 @@
 			this.scene.pushMatrix();
 				this.scene.translate(-this.WIDTH/2+.35, 0, -this.LENGTH*2/7+this.WHEELBASE);
 				this.scene.scale(0.35, 0.35, 0.35);
-				this.scene.rotate(-Math.PI/2, 0, 1, 0);
+				this.scene.rotate(-Math.PI/2 + this.turnAng * degToRad, 0, 1, 0);
 				this.URWheel.display();
 			this.scene.popMatrix();
 	
