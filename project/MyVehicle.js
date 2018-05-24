@@ -34,9 +34,9 @@
 		this.THROTTLE	= .001; 	// Positive acceleration of vehicle
 		this.BRAKES		= .001; 	// Negative acceleration of vehicle
 
-		this.STEERING	= 4; 		// Angular Velocity of steering (independent of delta)
-		this.TURNANGLE  = 40		// Max steering angle for car
-		this.TURNBACK	= 2;		// Angular Velocity of turn stabalization (independent of delta)
+		this.STEERING	= 2; 		// Angular Velocity of steering (independent of delta)
+		this.TURNANGLE  = 35;		// Max steering angle for car
+		this.TURNBACK	= 3;		// Angular Velocity of turn stabalization (independent of delta)
 
 		this.POPUP		= .05;		// Angular Velocity of pop up headlights
 		this.MAXPOPUP 	= 70;	
@@ -138,8 +138,10 @@
 
 	togglePopUpHeadlights()
 	{
-		this.isPopped = !this.isPopped;
-		this.isPopping = true;
+		if (!this.isPopping) {
+			this.isPopped = !this.isPopped;
+			this.isPopping = true;
+		}
 	}
 
 	update(delta) 
