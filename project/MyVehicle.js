@@ -86,26 +86,32 @@
 
 	initMaterials()
 	{
+		this.materialWheel = new CGFappearance(this.scene);
+		this.materialWheel.setAmbient(0.8, 0.8, 0.8, 1);
+		this.materialWheel.setSpecular(0.1, 0.1, 0.1, 1);
+		this.materialWheel.setDiffuse(0.2, 0.2, 0.2, 1);
+		this.materialWheel.loadTexture("../resources/images/lolipop.png");
+	
 		this.materialBody = new CGFappearance(this.scene);
 		this.materialBody.setSpecular(0.7, 0.7, 0.7, 1);
-		this.materialBody.setDiffuse(1, 1, 1, 1);
+		this.materialBody.setDiffuse(.5, .5, .5, 1);
 
 		this.materialGlass = new CGFappearance(this.scene);
 		this.materialGlass.setSpecular(.8, .8, .8, 1);
-		this.materialGlass.setDiffuse(.8, .8, .8, 1);
-
+		this.materialGlass.setDiffuse(.2, .2, .2, 1);
 	}
 
 	initMovement(x, y)
 	{
+		// Car Position and Rotation
 		this.xCarPos = x;
 		this.zCarPos = y;
 		this.carAng = 0;
 
-		this.xPos = 0;
-		this.zPos = 0;
+		// Angle of Wheels (Wheel Spin)
+		this.wheelAng = 0;
 
-		// angle of front wheels in degrees in respect to the front of the car
+		// angle of front wheels in respect to the front of the car
 		this.turnAng = 0;
 		// linear velocity of car. Direction depends on the turn angle 
 		this.velocity = 0;
@@ -159,7 +165,7 @@
 			}
 		}
 
-		// get position delta and turn delta and apply it to car		
+		// get position delta and steering delta and apply it to car		
 		var deltaPos = this.velocity * delta;
 
 		var oldTurnAng = oldTurnAng || 0;
@@ -172,6 +178,9 @@
 			this.xCarPos += deltaPos * Math.sin(this.carAng * degToRad);
 			this.zCarPos += deltaPos * Math.cos(this.carAng * degToRad);
 		}
+
+		// Update wheel spin based on velocity
+		this.wheelAng += deltaPos;
 
 		// update pop up headlights angle
 		if (this.isPopping) {
@@ -194,34 +203,42 @@
 			this.scene.rotate(this.carAng * degToRad, 0, 1, 0);
 
 			// CAR WHEELS ---------------------------------
+			this.materialWheel.apply();
+
 			this.scene.pushMatrix();
-				this.scene.translate(this.WIDTH/2-.35, 0, -this.LENGTH*2/7)
-				this.scene.scale(0.35, 0.35, 0.35);
-				this.scene.rotate(Math.PI/2, 0, 1, 0);
-				this.LLWheel.display();
+				this.scene.pushMatrix();
+					this.scene.translate(this.WIDTH/2-.35, 0, -this.LENGTH*2/7)
+					this.scene.scale(0.35, 0.35, 0.35);
+					this.scene.rotate(this.wheelAng, 1, 0, 0);
+					this.scene.rotate(Math.PI/2, 0, 1, 0);
+					this.LLWheel.display();
+				this.scene.popMatrix();
+				this.scene.pushMatrix();
+					this.scene.translate(this.WIDTH/2-.35, 0, -this.LENGTH*2/7+this.WHEELBASE);
+					this.scene.scale(0.35, 0.35, 0.35);
+					this.scene.rotate(Math.PI/2 + this.turnAng * degToRad, 0, 1, 0);
+					this.scene.rotate(this.wheelAng, 0, 0, 1);
+					this.ULWheel.display();
+				this.scene.popMatrix();
+				this.scene.pushMatrix();
+					this.scene.translate(-this.WIDTH/2+.35, 0, -this.LENGTH*2/7);
+					this.scene.scale(0.35, 0.35, 0.35);
+					this.scene.rotate(this.wheelAng, 1, 0, 0);
+					this.scene.rotate(-Math.PI/2, 0, 1, 0);
+					this.LRWheel.display();
+				this.scene.popMatrix();
+				this.scene.pushMatrix();
+					this.scene.translate(-this.WIDTH/2+.35, 0, -this.LENGTH*2/7+this.WHEELBASE);
+					this.scene.scale(0.35, 0.35, 0.35);
+					this.scene.rotate(-Math.PI/2 + this.turnAng * degToRad, 0, 1, 0);
+					this.scene.rotate(this.wheelAng, 0, 0, 1);
+					this.URWheel.display();
+				this.scene.popMatrix();
 			this.scene.popMatrix();
-			this.scene.pushMatrix();
-				this.scene.translate(this.WIDTH/2-.35, 0, -this.LENGTH*2/7+this.WHEELBASE);
-				this.scene.scale(0.35, 0.35, 0.35);
-				this.scene.rotate(Math.PI/2 + this.turnAng * degToRad, 0, 1, 0);
-				this.ULWheel.display();
-			this.scene.popMatrix();
-			this.scene.pushMatrix();
-				this.scene.translate(-this.WIDTH/2+.35, 0, -this.LENGTH*2/7);
-				this.scene.scale(0.35, 0.35, 0.35);
-				this.scene.rotate(-Math.PI/2, 0, 1, 0);
-				this.LRWheel.display();
-			this.scene.popMatrix();
-			this.scene.pushMatrix();
-				this.scene.translate(-this.WIDTH/2+.35, 0, -this.LENGTH*2/7+this.WHEELBASE);
-				this.scene.scale(0.35, 0.35, 0.35);
-				this.scene.rotate(-Math.PI/2 + this.turnAng * degToRad, 0, 1, 0);
-				this.URWheel.display();
-			this.scene.popMatrix();
-	
-			this.materialBody.apply();
 
 			// BACK OF CAR -----------------------------
+			this.materialBody.apply();
+
 			this.scene.pushMatrix();
 				this.scene.translate(0, 0, -this.LENGTH/2 +.35);
 				this.scene.scale(this.WIDTH, .2, .60);

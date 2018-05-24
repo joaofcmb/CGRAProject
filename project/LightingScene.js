@@ -182,17 +182,16 @@ class LightingScene extends CGFscene
 		// Update all lights used
 		this.updateLights();
 
-		// ---- END Background, camera and axis setup
-
-		// ---- BEGIN Scene drawing section
-		this.vehicle.display();
-
 		this.lightsControl();
 
 		if(axisControl) {
 			this.axis.display();
 		}
-    this.terrain.display();
+		// ---- END Background, camera and axis setup
+
+		// ---- BEGIN Scene drawing section
+    	this.terrain.display();
+    	this.vehicle.display();
     
 		// ---- END Scene drawing section
 	};
