@@ -240,7 +240,7 @@
 				this.cube.display();
 			this.scene.popMatrix();
 
-			// MIDDLE OF CAR
+			// MIDDLE OF CAR -----------------------------
 			this.scene.pushMatrix();
 				this.scene.translate(0, .9, -.5);
 				this.scene.scale(this.WIDTH, .45, 1.2);
@@ -260,7 +260,7 @@
 				this.carBot.display();
 			this.scene.popMatrix();
 
-			// FRONT OF CAR
+			// FRONT OF CAR -----------------------------
 			this.scene.pushMatrix();
 				this.scene.translate(0, 0.025, this.LENGTH/2 -.38);
 				this.scene.scale(this.WIDTH, .15, .55);
@@ -288,7 +288,7 @@
 				this.cube.display();
 			this.scene.popMatrix();
 
-			// POP UP HEADLIGHTS
+			// POP UP HEADLIGHTS -----------------------------
 			this.scene.pushMatrix();
 				this.scene.translate(-this.WIDTH/2 + .19, 0.375, this.LENGTH/2 -.27 + .001 * this.popUpAngle);
 				this.scene.rotate(-this.popUpAngle * degToRad, 1, 0, 0);
@@ -320,7 +320,7 @@
 				this.scene.popMatrix();
 			this.scene.popMatrix();
 
-			// SIDE MIRRORS
+			// SIDE MIRRORS -----------------------------
 			this.scene.pushMatrix();
 				this.scene.translate(this.WIDTH/2 -.02, .75, .5);
 				this.scene.scale(.1, .1, .1);
@@ -334,7 +334,7 @@
 				this.rightMirror.display();
 			this.scene.popMatrix();
 
-			// WINDOWS 
+			// WINDOWS -----------------------------
 			this.materialGlass.apply();
 			// Windshield (Front)
 			this.scene.pushMatrix();
