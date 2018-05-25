@@ -33,6 +33,7 @@
 		// Physics / Animation Constants
 		this.THROTTLE	= .001; 	// Positive acceleration of vehicle
 		this.BRAKES		= .001; 	// Negative acceleration of vehicle
+		this.MAXVEL		= 30;		// Maximum Velocity allowed for car
 
 		this.STEERING	= 2; 		// Angular Velocity of steering (independent of delta)
 		this.TURNANGLE  = 35;		// Max steering angle for car
@@ -122,12 +123,12 @@
 	// External Methods (To be accessed by other classes)
 	throttle() 
 	{
-		this.velocity += this.THROTTLE;
+		this.velocity = Math.min(this.velocity + this.THROTTLE, this.MAXVEL);
 	}
 
 	brake()
 	{
-		this.velocity -= this.BRAKES;
+		this.velocity = Math.max(this.velocity - this.BRAKES, -this.MAXVEL);
 	}
 
 	turnLeft()
@@ -231,7 +232,7 @@
 					this.scene.translate(-this.WIDTH/2+.35, 0, -this.LENGTH*2/7+this.WHEELBASE);
 					this.scene.scale(0.35, 0.35, 0.35);
 					this.scene.rotate(-Math.PI/2 + this.turnAng * degToRad, 0, 1, 0);
-					this.scene.rotate(this.wheelAng, 0, 0, 1);
+					this.scene.rotate(-this.wheelAng, 0, 0, 1);
 					this.URWheel.display();
 				this.scene.popMatrix();
 			this.scene.popMatrix();
