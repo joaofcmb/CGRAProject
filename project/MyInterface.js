@@ -31,11 +31,22 @@ class MyInterface extends CGFinterface {
 
 		// add a group of controls (and open/expand by defult)
 
-		var group=this.gui.addFolder('Luzes');
-		group.open();
+    var textures=this.gui.addFolder('Texturas');
+    textures.open();
 
-    group.add(this.scene, 'luz1');
-    group.add(this.scene, 'luz2');
+    textures.add(this.scene, 'none');
+    textures.add(this.scene, 'pineapple');
+    textures.add(this.scene, 'apple');
+    textures.add(this.scene, 'orange');
+    textures.add(this.scene, 'strawberry');
+
+
+
+		var lights=this.gui.addFolder('Luzes');
+		lights.open();
+
+    lights.add(this.scene, 'luz1');
+    lights.add(this.scene, 'luz2');
 
     this.gui.add(this.scene, 'eixos');
 

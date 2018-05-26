@@ -21,7 +21,7 @@ class LightingScene extends CGFscene
 
 		this.setUpdatePeriod(1/60);
 
-   		this.enableTextures(true);
+   	this.enableTextures(true);
 
 		this.initCameras();
 
@@ -34,7 +34,7 @@ class LightingScene extends CGFscene
 		this.gl.depthFunc(this.gl.LEQUAL);
 
 		this.axis = new CGFaxis(this);
-    
+
 		this.altimetry =[[6.0, 0.0, 0.0, 4.4, 4.4, 4.4, 4.4, 4.4, 0.0, 0.0, 6.5],
 						 [6.0, 0.0, 0.0, 4.4, 4.4, 4.4, 4.4, 4.4, 0.0, 0.0, 6.5],
 						 [6.0, 0.0, 0.0, 4.2, 4.2, 4.2, 4.2, 4.2, 0.0, 0.0, 6.5],
@@ -43,17 +43,30 @@ class LightingScene extends CGFscene
 						 [6.0, 0.0, 0.0, 3.5, 0.0, 0.0, 0.0, 3.5, 0.0, 0.0, 6.5],
 						 [6.0, 0.0, 0.0, 3.4, 0.0, 0.0, 0.0, 3.4, 0.0, 0.0, 6.5],
 						 [6.0, 0.0, 0.0, 3.3, 3.4, 3.4, 3.3, 3.3, 0.0, 0.0, 4.7],
-						 [6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.7],   
+						 [6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.7],
 						 [6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.7],
 						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 5.6, 4.7, 3.4, 4.7, 6.5],
-						]; 
-		
+						];
+
 		this.vehicle = new MyVehicle(this, 12, 0);
 		this.terrain = new MyTerrain(this, this.altimetry);
-    
-    	this.luz1=true;
+
+    this.luz1=true;
 		this.luz2=true;
-    
+
+		this.vehicleAppearances =["none",	"pineapple", "apple", "orange", "strawberry"];
+
+		this.vehicleAppearanceList = {};
+
+		for (var i = 0; i < this.vehicleAppearances.length; i++) {
+			this.vehicleAppearanceList[this.vehicleAppearances[i]] = i;
+		}
+
+		this.currVehicleAppearance = 0;
+
+		this.vehicle = new MyVehicle(this, 0, 0);
+		this.terrain = new MyTerrain(this, this.altimetry);
+
 	};
 
 	initCameras()
@@ -84,6 +97,8 @@ class LightingScene extends CGFscene
 		this.checkKeys();
 
 		this.vehicle.update(this.deltaTime);
+
+		this.vehicle.updateTexture(this.currVehicleAppearance);
 	}
 
 	updateLights()
@@ -91,7 +106,6 @@ class LightingScene extends CGFscene
 		for (var i = 0; i < this.lights.length; i++)
 			this.lights[i].update();
 	}
-
 
 	lightsControl()
 	{
@@ -118,6 +132,22 @@ class LightingScene extends CGFscene
 		else{
 			axisControl = true;
 		}
+	}
+
+	none(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["none"]
+	}
+	pineapple(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["pineapple"]
+	}
+	apple(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["apple"]
+	}
+	orange(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["orange"]
+	}
+	strawberry(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["strawberry"]
 	}
 
 	checkKeys()
@@ -169,7 +199,7 @@ class LightingScene extends CGFscene
 
 		// Clear image and depth buffer everytime we update the scene
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-		this.gl.clearColor(179/255,236/255,255/255,1);
+		// this.gl.clearColor(179/255,236/255,255/255,1);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 		// Initialize Model-View matrix as identity (no transformation)
@@ -184,6 +214,8 @@ class LightingScene extends CGFscene
 
 		this.lightsControl();
 
+		// this.updateTextures();
+
 		if(axisControl) {
 			this.axis.display();
 		}
@@ -192,7 +224,7 @@ class LightingScene extends CGFscene
 		// ---- BEGIN Scene drawing section
     	this.terrain.display();
     	this.vehicle.display();
-    
+
 		// ---- END Scene drawing section
 	};
 };

@@ -40,7 +40,7 @@
 		this.TURNBACK	= 3;		// Angular Velocity of turn stabalization (independent of delta)
 
 		this.POPUP		= .05;		// Angular Velocity of pop up headlights
-		this.MAXPOPUP 	= 70;	
+		this.MAXPOPUP 	= 70;
 
 		this.cube 		= new MyUnitCubeQuad(this.scene);
 		this.prism 		= new MyPrism(this.scene, 4, 10);
@@ -63,6 +63,7 @@
 
 		this.isPopped = false;
 		this.isPopping = false;
+
 	};
 
 	initSpecialSolids()
@@ -76,7 +77,7 @@
 		this.fmBumper = new MyTrapSolid(this.scene, 90, 85);
 		this.fuBumper = new MyTrapSolid(this.scene, 90, 85);
 
-		this.upperLight = new MyTrapSolid(this.scene, 90, 85);	
+		this.upperLight = new MyTrapSolid(this.scene, 90, 85);
 
 		this.leftMirror = new MyTrapSolid(this.scene, 90, 45);
 		this.rightMirror = new MyTrapSolid(this.scene, 45, 90);
@@ -92,14 +93,43 @@
 		this.materialWheel.setSpecular(0.1, 0.1, 0.1, 1);
 		this.materialWheel.setDiffuse(0.2, 0.2, 0.2, 1);
 		this.materialWheel.loadTexture("../resources/images/lolipop.png");
-	
+
 		this.materialBody = new CGFappearance(this.scene);
-		this.materialBody.setSpecular(0.7, 0.7, 0.7, 1);
-		this.materialBody.setDiffuse(.5, .5, .5, 1);
 
 		this.materialGlass = new CGFappearance(this.scene);
 		this.materialGlass.setSpecular(.8, .8, .8, 1);
 		this.materialGlass.setDiffuse(.2, .2, .2, 1);
+
+    this.materialBodyPineapple = new CGFappearance(this.scene);
+    this.materialBodyPineapple.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialBodyPineapple.setSpecular(1, 1, 1, 1);
+    this.materialBodyPineapple.setDiffuse(.5, .5, .5, 1);
+    this.materialBodyPineapple.loadTexture("../resources/images/pineapple.png");
+
+    this.materialBodyApple = new CGFappearance(this.scene);
+    this.materialBodyApple.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialBodyApple.setSpecular(0.7, 0.7, 0.7, 1);
+    this.materialBodyApple.setDiffuse(.5, .5, .5, 1);
+    this.materialBodyApple.loadTexture("../resources/images/apple.png");
+
+    this.materialBodyOrange = new CGFappearance(this.scene);
+    this.materialBodyOrange.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialBodyOrange.setSpecular(0.7, 0.7, 0.7, 1);
+    this.materialBodyOrange.setDiffuse(.5, .5, .5, 1);
+    this.materialBodyOrange.loadTexture("../resources/images/orange.png");
+
+    this.materialBodyStrawberry = new CGFappearance(this.scene);
+    this.materialBodyStrawberry.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialBodyStrawberry.setSpecular(0.7, 0.7, 0.7, 1);
+    this.materialBodyStrawberry.setDiffuse(.5, .5, .5, 1);
+    this.materialBodyStrawberry.loadTexture("../resources/images/strawberry.png");
+
+    this.materialBodyNone = new CGFappearance(this.scene);
+    this.materialBodyNone.setSpecular(0.7, 0.7, 0.7, 1);
+    this.materialBodyNone.setDiffuse(.5, .5, .5, 1);
+
+    this.possibleAppearances = [this.materialBodyNone, this.materialBodyPineapple, this.materialBodyApple, this.materialBodyOrange, this.materialBodyStrawberry];
+
 	}
 
 	initMovement(x, y)
@@ -114,14 +144,14 @@
 
 		// angle of front wheels in respect to the front of the car
 		this.turnAng = 0;
-		// linear velocity of car. Direction depends on the turn angle 
+		// linear velocity of car. Direction depends on the turn angle
 		this.velocity = 0;
 
 		this.turning = false;
 	}
 
 	// External Methods (To be accessed by other classes)
-	throttle() 
+	throttle()
 	{
 		this.velocity = Math.min(this.velocity + this.THROTTLE, this.MAXVEL);
 	}
@@ -151,11 +181,11 @@
 		}
 	}
 
-	update(delta) 
+	update(delta)
 	{
 		// stabilize turning angle
-		if (this.turning) 	this.turning = false; 
-		else { 	
+		if (this.turning) 	this.turning = false;
+		else {
 			if (this.turnAng > 0) {
 				this.turnAng -= this.TURNBACK;
 				if (this.turnAng < 0)	this.turnAng = 0;
@@ -166,7 +196,7 @@
 			}
 		}
 
-		// get position delta and steering delta and apply it to car		
+		// get position delta and steering delta and apply it to car
 		var deltaPos = this.velocity * delta;
 
 		var oldTurnAng = oldTurnAng || 0;
@@ -186,18 +216,24 @@
 		// update pop up headlights angle
 		if (this.isPopping) {
 			var deltaPopUp = this.POPUP * delta;
-			
-			if (this.isPopped)	
+
+			if (this.isPopped)
 				this.popUpAngle = Math.min(this.popUpAngle + deltaPopUp, this.MAXPOPUP);
 			else
 				this.popUpAngle = Math.max(this.popUpAngle - deltaPopUp, 0);
-			
+
 			if (this.popUpAngle == 0 || this.popUpAngle == this.MAXPOPUP)
 				this.isPopping = false;
 		}
 	}
-	
-  	display()
+
+  updateTexture(currVehicleAppearance){
+    var appearance = this.possibleAppearances[currVehicleAppearance]
+    this.materialBody = appearance;
+  }
+
+
+  display()
 	{
 		this.scene.pushMatrix();
 			this.scene.translate(this.xCarPos, .35, this.zCarPos);
