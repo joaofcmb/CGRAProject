@@ -100,36 +100,35 @@
 		this.materialGlass.setSpecular(.8, .8, .8, 1);
 		this.materialGlass.setDiffuse(.2, .2, .2, 1);
 
-    this.materialBodyPineapple = new CGFappearance(this.scene);
-    this.materialBodyPineapple.setAmbient(0.8, 0.8, 0.8, 1);
-    this.materialBodyPineapple.setSpecular(1, 1, 1, 1);
-    this.materialBodyPineapple.setDiffuse(.5, .5, .5, 1);
-    this.materialBodyPineapple.loadTexture("../resources/images/pineapple.png");
+		this.materialBodyPineapple = new CGFappearance(this.scene);
+		this.materialBodyPineapple.setAmbient(0.8, 0.8, 0.8, 1);
+		this.materialBodyPineapple.setSpecular(1, 1, 1, 1);
+		this.materialBodyPineapple.setDiffuse(.5, .5, .5, 1);
+		this.materialBodyPineapple.loadTexture("../resources/images/pineapple.png");
 
-    this.materialBodyApple = new CGFappearance(this.scene);
-    this.materialBodyApple.setAmbient(0.8, 0.8, 0.8, 1);
-    this.materialBodyApple.setSpecular(0.7, 0.7, 0.7, 1);
-    this.materialBodyApple.setDiffuse(.5, .5, .5, 1);
-    this.materialBodyApple.loadTexture("../resources/images/apple.png");
+		this.materialBodyApple = new CGFappearance(this.scene);
+		this.materialBodyApple.setAmbient(0.8, 0.8, 0.8, 1);
+		this.materialBodyApple.setSpecular(0.7, 0.7, 0.7, 1);
+		this.materialBodyApple.setDiffuse(.5, .5, .5, 1);
+		this.materialBodyApple.loadTexture("../resources/images/apple.png");
 
-    this.materialBodyOrange = new CGFappearance(this.scene);
-    this.materialBodyOrange.setAmbient(0.8, 0.8, 0.8, 1);
-    this.materialBodyOrange.setSpecular(0.7, 0.7, 0.7, 1);
-    this.materialBodyOrange.setDiffuse(.5, .5, .5, 1);
-    this.materialBodyOrange.loadTexture("../resources/images/orange.png");
+		this.materialBodyOrange = new CGFappearance(this.scene);
+		this.materialBodyOrange.setAmbient(0.8, 0.8, 0.8, 1);
+		this.materialBodyOrange.setSpecular(0.7, 0.7, 0.7, 1);
+		this.materialBodyOrange.setDiffuse(.5, .5, .5, 1);
+		this.materialBodyOrange.loadTexture("../resources/images/orange.png");
 
-    this.materialBodyStrawberry = new CGFappearance(this.scene);
-    this.materialBodyStrawberry.setAmbient(0.8, 0.8, 0.8, 1);
-    this.materialBodyStrawberry.setSpecular(0.7, 0.7, 0.7, 1);
-    this.materialBodyStrawberry.setDiffuse(.5, .5, .5, 1);
-    this.materialBodyStrawberry.loadTexture("../resources/images/strawberry.png");
+		this.materialBodyStrawberry = new CGFappearance(this.scene);
+		this.materialBodyStrawberry.setAmbient(0.8, 0.8, 0.8, 1);
+		this.materialBodyStrawberry.setSpecular(0.7, 0.7, 0.7, 1);
+		this.materialBodyStrawberry.setDiffuse(.5, .5, .5, 1);
+		this.materialBodyStrawberry.loadTexture("../resources/images/strawberry.png");
 
-    this.materialBodyNone = new CGFappearance(this.scene);
-    this.materialBodyNone.setSpecular(0.7, 0.7, 0.7, 1);
-    this.materialBodyNone.setDiffuse(.5, .5, .5, 1);
+		this.materialBodyNone = new CGFappearance(this.scene);
+		this.materialBodyNone.setSpecular(0.7, 0.7, 0.7, 1);
+		this.materialBodyNone.setDiffuse(.5, .5, .5, 1);
 
-    this.possibleAppearances = [this.materialBodyNone, this.materialBodyPineapple, this.materialBodyApple, this.materialBodyOrange, this.materialBodyStrawberry];
-
+		this.possibleAppearances = [this.materialBodyNone, this.materialBodyPineapple, this.materialBodyApple, this.materialBodyOrange, this.materialBodyStrawberry];
 	}
 
 	initMovement(x, y)
@@ -227,13 +226,13 @@
 		}
 	}
 
-  updateTexture(currVehicleAppearance){
-    var appearance = this.possibleAppearances[currVehicleAppearance]
-    this.materialBody = appearance;
-  }
+ 	updateTexture(currVehicleAppearance) {
+    	var appearance = this.possibleAppearances[currVehicleAppearance]
+    	this.materialBody = appearance;
+  	}
 
 
-  display()
+  	display()
 	{
 		this.scene.pushMatrix();
 			this.scene.translate(this.xCarPos, .35, this.zCarPos);
