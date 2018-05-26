@@ -34,8 +34,13 @@ class MyInterface extends CGFinterface {
     var textures=this.gui.addFolder('Texturas');
     textures.open();
 
-    textures.add(this.scene, 'textura1');
-    textures.add(this.scene, 'textura2');
+    textures.add(this.scene, 'none');
+    textures.add(this.scene, 'pineapple');
+    textures.add(this.scene, 'apple');
+    textures.add(this.scene, 'orange');
+    textures.add(this.scene, 'strawberry');
+
+
 
 		var lights=this.gui.addFolder('Luzes');
 		lights.open();
@@ -44,9 +49,6 @@ class MyInterface extends CGFinterface {
     lights.add(this.scene, 'luz2');
 
     this.gui.add(this.scene, 'eixos');
-
-
-
 
     this.initKeys();
 

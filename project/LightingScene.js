@@ -51,18 +51,21 @@ class LightingScene extends CGFscene
 		this.vehicle = new MyVehicle(this, 12, 0);
 		this.terrain = new MyTerrain(this, this.altimetry);
 
-		this.materialTop = new CGFappearance(this);
-		this.materialTop.setAmbient(0.8, 0.8, 0.8, 1);
-		this.materialTop.setSpecular(0.3, 0.3, 0.3, 1);
-		this.materialTop.setDiffuse(0.8, 0.8, 0.8, 1);
-		this.materialTop.setShininess(20);
-		this.materialTop.loadTexture("../resources/images/clock.png");
-
-
     this.luz1=true;
 		this.luz2=true;
-		this.textura1=true;
-		this.textura2=false;
+
+		this.vehicleAppearances =["none",	"pineapple", "apple", "orange", "strawberry"];
+
+		this.vehicleAppearanceList = {};
+
+		for (var i = 0; i < this.vehicleAppearances.length; i++) {
+			this.vehicleAppearanceList[this.vehicleAppearances[i]] = i;
+		}
+
+		this.currVehicleAppearance = 0;
+
+		this.vehicle = new MyVehicle(this, 0, 0);
+		this.terrain = new MyTerrain(this, this.altimetry);
 
 	};
 
@@ -94,6 +97,8 @@ class LightingScene extends CGFscene
 		this.checkKeys();
 
 		this.vehicle.update(this.deltaTime);
+
+		this.vehicle.updateTexture(this.currVehicleAppearance);
 	}
 
 	updateLights()
@@ -101,7 +106,6 @@ class LightingScene extends CGFscene
 		for (var i = 0; i < this.lights.length; i++)
 			this.lights[i].update();
 	}
-
 
 	lightsControl()
 	{
@@ -128,6 +132,22 @@ class LightingScene extends CGFscene
 		else{
 			axisControl = true;
 		}
+	}
+
+	none(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["none"]
+	}
+	pineapple(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["pineapple"]
+	}
+	apple(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["apple"]
+	}
+	orange(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["orange"]
+	}
+	strawberry(){
+		this.currVehicleAppearance = this.vehicleAppearanceList["strawberry"]
 	}
 
 	checkKeys()
@@ -193,6 +213,8 @@ class LightingScene extends CGFscene
 		this.updateLights();
 
 		this.lightsControl();
+
+		// this.updateTextures();
 
 		if(axisControl) {
 			this.axis.display();

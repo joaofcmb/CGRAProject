@@ -25,7 +25,6 @@ class MySphere extends CGFobject
 		var vAngle = Math.PI / (2* this.stacks);
 
 		for (var i = 0; i < this.stacks + 1; i++) {
-			console.log("i: " + i);
 			for (var j = 0; j < this.slices; j++) {
 				this.vertices.push(	Math.cos(hAngle * j) * Math.cos(vAngle * i),
 									Math.sin(hAngle * j) * Math.cos(vAngle * i),
