@@ -4,7 +4,7 @@
  */
 class MySphere extends CGFobject
 {
-	constructor(scene, slices, stacks) 
+	constructor(scene, slices, stacks)
 	{
 		super(scene);
 
@@ -14,27 +14,30 @@ class MySphere extends CGFobject
 		this.initBuffers();
 	};
 
-	initBuffers() 
-	{	
+	initBuffers()
+	{
 		// DRAW VERTICES ------------
 
 		this.vertices = [];
+		this.texCoords = [];
 
 		var hAngle = 2* Math.PI / this.slices;
 		var vAngle = Math.PI / (2* this.stacks);
 
 		for (var i = 0; i < this.stacks + 1; i++) {
+			console.log("i: " + i);
 			for (var j = 0; j < this.slices; j++) {
-				this.vertices.push(	Math.cos(hAngle * j) * Math.cos(vAngle * i), 
+				this.vertices.push(	Math.cos(hAngle * j) * Math.cos(vAngle * i),
 									Math.sin(hAngle * j) * Math.cos(vAngle * i),
 									Math.sin(vAngle * i));
+				this.texCoords.push((Math.cos(hAngle * j) * Math.cos(vAngle * i)+1)/2, (1-(Math.sin(hAngle * j) * Math.cos(vAngle * i)+1)/2));
 			}
 		}
 
 		// DRAW INDICES ------------
 
 		this.indices = [];
-		
+
 		for (var j = 0; j < this.stacks; j++) {
 			for (var i = 0; i < this.slices - 1; i++) {
 				this.indices.push(i + j * this.slices, i + 1 + j * this.slices, i + (j + 1) * this.slices);
@@ -63,7 +66,7 @@ class MySphere extends CGFobject
 			console.log(this.vertices[i]);
 			console.log("--");
 		}
-		
+
 		console.log("INDICES");
 		for (var i = 0; i < this.indices.length; i++) {
 			console.log(this.indices[i]);
@@ -76,7 +79,7 @@ class MySphere extends CGFobject
 			console.log("--");
 		}
 
-		
+
 
 		console.log(this.vertices.length);
 		console.log(this.indices.length);
