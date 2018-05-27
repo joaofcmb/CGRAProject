@@ -36,7 +36,7 @@ class MyInterface extends CGFinterface {
 
     this.gui.add(this.scene, 'wheelAppearance', ['default', 'lolipop', 'clock', 'cookie'] );
 
-    this.gui.add(this.scene, 'glassAppearance', ['none', 'glass', 'takumi', 'vitral'] );
+    this.gui.add(this.scene, 'glassAppearance', ['default', 'glass', 'takumi', 'vitral'] );
 
     this.gui.add(this.scene, 'lightAppearance', ['default', 'lanterna1', 'lanterna2', 'lanterna3'] );
 

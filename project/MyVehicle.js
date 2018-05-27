@@ -98,7 +98,7 @@
     this.materialBodyNone = new CGFappearance(this.scene);
     this.materialBodyNone.setAmbient(0.8, 0.8, 0.8, 1);
     this.materialBodyNone.setSpecular(0.7, 0.7, 0.7, 1);
-    this.materialBodyNone.setDiffuse(.9, .9, .9, 1);
+    this.materialBodyNone.setDiffuse(.7, .7, .7, 1);
 
     this.materialBodyPineapple = new CGFappearance(this.scene);
     this.materialBodyPineapple.setAmbient(0.8, 0.8, 0.8, 1);
@@ -130,10 +130,11 @@
     // GLASS MATERIALS ---------------------------------
     this.materialGlass = new CGFappearance(this.scene);
 
-    this.materialGlassNone = new CGFappearance(this.scene);
-	this.materialGlassNone.setSpecular(.8, .8, .8, 1);
-	this.materialGlassNone.setDiffuse(.2, .2, .2, 1);
-
+	this.materialGlassDefault = new CGFappearance(this.scene);
+    this.materialGlassDefault.setSpecular(.8, .8, .8, 1);
+	this.materialGlassDefault.setDiffuse(.4, .4, .4, 1);
+	this.materialGlassDefault.loadTexture("../resources/images/windshield.png");
+	
     this.materialGlass1 = new CGFappearance(this.scene);
     this.materialGlass1.setSpecular(.8, .8, .8, 1);
 	this.materialGlass1.setDiffuse(.4, .4, .4, 1);
@@ -149,7 +150,7 @@
     this.materialVitral.setDiffuse(.6, .6, .6, 1);
     this.materialVitral.loadTexture("../resources/images/vitral.png");
 
-    this.glassPossibleAppearances = [this.materialGlassNone, this.materialGlass1, this.materialTakumi, this.materialVitral];
+    this.glassPossibleAppearances = [this.materialGlassDefault, this.materialGlass1, this.materialTakumi, this.materialVitral];
 
 
     //WHEEL MATERIAL ---------------------------------
