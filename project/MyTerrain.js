@@ -9,13 +9,6 @@ class MyTerrain extends Plane{
     this.altimetry = altimetry;
     this.altimetry[0][0] = 7;
 
-    this.materialTerrain = new CGFappearance(this.scene);
-    this.materialTerrain.setAmbient(0.8, 0.8, 0.8, 1);
-    this.materialTerrain.setSpecular(0.3, 0.3, 0.3, 1);
-    this.materialTerrain.setDiffuse(0.8, 0.8, 0.8, 1);
-    this.materialTerrain.setShininess(20);
-    this.materialTerrain.loadTexture("../resources/images/RockyDesert.png");
-
     this.initBuffers();
     this.initGLBuffers();
     this.initMaterials();
@@ -57,14 +50,14 @@ class MyTerrain extends Plane{
     this.materialTerrainGrass.setSpecular(0.3, 0.3, 0.3, 1);
     this.materialTerrainGrass.setDiffuse(0.8, 0.8, 0.8, 1);
     this.materialTerrainGrass.setShininess(20);
-    this.materialTerrainGrass.loadTexture("../resources/images/grass.png");
+    this.materialTerrainGrass.loadTexture("../resources/images/grass.jpg");
 
     this.materialTerrainSand = new CGFappearance(this.scene);
     this.materialTerrainSand.setAmbient(0.8, 0.8, 0.8, 1);
     this.materialTerrainSand.setSpecular(0.3, 0.3, 0.3, 1);
     this.materialTerrainSand.setDiffuse(0.8, 0.8, 0.8, 1);
     this.materialTerrainSand.setShininess(20);
-    this.materialTerrainSand.loadTexture("../resources/images/sand.png");
+    this.materialTerrainSand.loadTexture("../resources/images/sand.jpg");
 
     this.terrainPossibleAppearances = [this.materialTerrainRocky, this.materialTerrainGrass, this.materialTerrainSand];
   }
