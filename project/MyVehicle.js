@@ -93,7 +93,7 @@
 
     // BODY MATERIALS ---------------------------------
 
-		this.materialBody = new CGFappearance(this.scene);
+	this.materialBody = new CGFappearance(this.scene);
 
     this.materialBodyNone = new CGFappearance(this.scene);
     this.materialBodyNone.setSpecular(0.7, 0.7, 0.7, 1);
@@ -130,13 +130,13 @@
     this.materialGlass = new CGFappearance(this.scene);
 
     this.materialGlassNone = new CGFappearance(this.scene);
-		this.materialGlassNone.setSpecular(.8, .8, .8, 1);
-		this.materialGlassNone.setDiffuse(.2, .2, .2, 1);
+	this.materialGlassNone.setSpecular(.8, .8, .8, 1);
+	this.materialGlassNone.setDiffuse(.2, .2, .2, 1);
 
     this.materialGlass1 = new CGFappearance(this.scene);
     this.materialGlass1.setSpecular(.8, .8, .8, 1);
-		this.materialGlass1.setDiffuse(.2, .2, .2, 1);
-		this.materialGlass1.loadTexture("../resources/images/glass1.png");
+	this.materialGlass1.setDiffuse(.2, .2, .2, 1);
+	this.materialGlass1.loadTexture("../resources/images/glass1.png");
 
     this.materialVitral = new CGFappearance(this.scene);
     this.materialVitral.setSpecular(.8, .8, .8, 1);
@@ -351,7 +351,7 @@
 		this.fuBumper.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
 		this.leftMirror.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
 		this.rightMirror.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
-		this.upperLight.updateTexture(this.headlightsPossibleAppearances[currLightAppearance]);
+		this.upperLight.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
 
 		this.materialGlass = this.glassPossibleAppearances[currGlassAppearance];
 		this.materialWheel = this.wheelPossibleAppearances[currWheelAppearance];
@@ -470,7 +470,6 @@
 			this.scene.popMatrix();
 
 			// POP UP HEADLIGHTS -----------------------------
-      		this.materialHeadlights.apply();
 			this.scene.pushMatrix();
 				this.scene.translate(-this.WIDTH/2 + .19, 0.375, this.LENGTH/2 -.27 + .001 * this.popUpAngle);
 				this.scene.rotate(-this.popUpAngle * degToRad, 1, 0, 0);
@@ -485,7 +484,15 @@
 					this.scene.scale(this.WIDTH *.2, .15, this.WIDTH *.2);
 					this.cube.display();
 				this.scene.popMatrix();
+				this.scene.pushMatrix();
+					this.materialHeadlights.apply();
+					this.scene.translate(0, -.07, 0.03);
+					this.scene.rotate(-20 * degToRad, 1, 0, 0);
+					this.scene.scale(this.WIDTH *.15, .15, this.WIDTH *.15);
+					this.cube.display();
+				this.scene.popMatrix();
 			this.scene.popMatrix();
+			this.materialBody.apply();
 			this.scene.pushMatrix();
 				this.scene.translate(+this.WIDTH/2 - .19, 0.375, this.LENGTH/2 -.27 + .001 * this.popUpAngle);
 				this.scene.rotate(-this.popUpAngle * degToRad, 1, 0, 0);
@@ -498,6 +505,13 @@
 					this.scene.translate(0, -.07, 0.01);
 					this.scene.rotate(-20 * degToRad, 1, 0, 0);
 					this.scene.scale(this.WIDTH *.2, .15, this.WIDTH *.2);
+					this.cube.display();
+				this.scene.popMatrix();
+				this.scene.pushMatrix();
+					this.materialHeadlights.apply();
+					this.scene.translate(0, -.07, 0.03);
+					this.scene.rotate(-20 * degToRad, 1, 0, 0);
+					this.scene.scale(this.WIDTH *.15, .15, this.WIDTH *.15);
 					this.cube.display();
 				this.scene.popMatrix();
 			this.scene.popMatrix();
@@ -550,3 +564,4 @@
 		this.scene.popMatrix();
 	};
  };
+ 

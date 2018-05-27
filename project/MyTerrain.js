@@ -71,8 +71,6 @@ class MyTerrain extends Plane{
 
   updateTexture(currTerrainAppearance){
     this.materialTerrain = this.terrainPossibleAppearances[currTerrainAppearance];
-    console.log(this.terrainPossibleAppearances[currTerrainAppearance]);
-
   }
 
   display()
