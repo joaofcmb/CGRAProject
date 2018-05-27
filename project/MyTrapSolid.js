@@ -4,7 +4,7 @@
  */
 class MyTrapSolid extends CGFobject
 {
-	constructor(scene, lAng, rAng) 
+	constructor(scene, lAng, rAng)
 	{
 		super(scene);
 
@@ -14,10 +14,23 @@ class MyTrapSolid extends CGFobject
 		this.quad = new MyQuad(this.scene);
 		this.frontTrapeze = new MyTrapeze(this.scene, lAng, rAng);
 		this.backTrapeze = new MyTrapeze(this.scene, rAng, lAng);
+
+		this.initMaterials();
 	};
 
-	display() 
+	initMaterials(){
+		this.material = new CGFappearance(this.scene);
+	}
+
+	updateTexture(materialChosen){
+		this.material = materialChosen;
+	}
+
+
+	display()
 	{
+		this.material.apply();
+
 		// front face
 		this.scene.pushMatrix();
 		this.scene.translate(0, 0, 0.5);
