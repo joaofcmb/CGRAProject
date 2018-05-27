@@ -41,8 +41,8 @@ class LightingScene extends CGFscene
 						 [6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 6.5],
 						 [6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 6.5],
 						 [6.0, 0.0, 0.0, 3.5, 0.0, 0.0, 0.0, 3.5, 0.0, 0.0, 6.5],
-						 [6.0, 0.0, 0.0, 3.4, 0.0, 0.0, 0.0, 3.4, 0.0, 0.0, 6.5],
-						 [6.0, 0.0, 0.0, 3.3, 3.4, 3.4, 3.3, 3.3, 0.0, 0.0, 4.7],
+						 [6.0, 0.0, 0.0, 2.4, 0.0, 0.0, 0.0, 2.4, 0.0, 0.0, 6.5],
+						 [6.0, 0.0, 0.0, 1.3, 2.3, 2.4, 2.3, 1.3, 0.0, 0.0, 4.7],
 						 [6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.7],
 						 [6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.7],
 						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 5.6, 4.7, 3.4, 4.7, 6.5],
@@ -97,9 +97,13 @@ class LightingScene extends CGFscene
 
 		this.checkKeys();
 
+		// Update Vehicle
 		this.vehicle.update(this.deltaTime);
-
 		this.vehicle.updateTexture(this.currVehicleAppearance);
+
+		// Update Crane
+		this.crane.checkPickUp(this.vehicle.getXPos(), this.vehicle.getZPos());
+		this.crane.update(this.deltaTime);
 	}
 
 	updateLights()

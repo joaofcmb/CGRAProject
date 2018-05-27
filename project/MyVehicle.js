@@ -180,6 +180,17 @@
 		}
 	}
 
+	getXPos() 
+	{
+		return this.xCarPos;
+	}
+
+	getZPos() 
+	{
+		return this.zCarPos;
+	}
+
+
 	update(delta)
 	{
 		// stabilize turning angle

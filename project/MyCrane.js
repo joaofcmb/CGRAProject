@@ -17,16 +17,16 @@
 		this.PITCH 		 = 30;		// Fixed Pitch of Lower Arm in Degrees
 
 		// Physics / Animation Constants
-		this.STEERING	 = 2; 		// Angular Velocity of joints
+		this.STEERING	 = .1; 		// Angular Velocity of joints
 
 		this.PICKUPX	 = 0;
 		this.PICKUPZ	 = 17;
 
 		// Angles in degrees, starting from the Y axis
 		this.PICKUPBASE  = 0;		// Angle of Base Joint in Pickup Position 
-		this.PICKUPARM 	 = 0;		// Angle of Arm Joint in Pickup Position 
-		this.DROPBASE 	 = 0;		// Angle of Base Joint in Drop Position 
-		this.DROPARM 	 = 108;		// Angle of Base Joint in Drop Position
+		this.PICKUPARM 	 = 108;		// Angle of Arm Joint in Pickup Position 
+		this.DROPBASE 	 = 220;		// Angle of Base Joint in Drop Position 
+		this.DROPARM 	 = 80;		// Angle of Base Joint in Drop Position
 
 
 		this.cube 		 = new MyUnitCubeQuad(this.scene);
@@ -51,13 +51,16 @@
 
 	initMovement(x, z)
 	{
-		// Position of the Crane's base
+		// Crane's Position
 		this.xPos = x;
 		this.zPos = z;
 
 		// Angle of Both Joints (Degrees)
 		this.baseAng = this.DROPBASE;
 		this.armAng  = this.DROPARM;
+
+		// Flag for the crane to go to the pickup area
+		this.pickingUp = false;
 
 		// Useful Variables for display()
 		this.dzLowerArm	 = this.ARMLENGTH * Math.sin(this.PITCH * degToRad);
@@ -69,9 +72,41 @@
 
 	// External Methods (To be accessed by other classes)
 
+	checkPickUp(x, z)
+	{
+		this.pickingUp = (x <= this.PICKUPX + 3 && x >= this.PICKUPX - 3) &&
+						 (z <= this.PICKUPZ + 1.5 && z >= this.PICKUPZ - 1.5);
+	}
+
 	update(delta)
 	{
-		
+		var dAng = this.STEERING * delta;
+
+		if (this.pickingUp) {
+			this.baseAng = Math.max(this.baseAng - dAng, this.PICKUPBASE);
+			this.armAng = Math.min(this.armAng + dAng, this.PICKUPARM);
+			
+			// Check if Reached Pickup Area
+			if (this.baseAng == this.PICKUPBASE && this.armAng == this.PICKUPARM) {
+				this.pickingUp = false;
+				
+				// TODO Stick car to magnet
+			}
+			else {
+				this.dzUpperArm	 = this.ARMLENGTH * Math.sin(this.armAng * degToRad);
+				this.dyUpperArm	 = this.ARMLENGTH * Math.cos(this.armAng * degToRad);
+			}
+		}
+		else if (this.baseAng != this.DROPBASE || this.armAng != this.DROPARM) {
+			this.baseAng = Math.min(this.baseAng + dAng, this.DROPBASE);
+			this.armAng = Math.max(this.armAng - dAng, this.DROPARM);
+
+			this.dzUpperArm	 = this.ARMLENGTH * Math.sin(this.armAng * degToRad);
+			this.dyUpperArm	 = this.ARMLENGTH * Math.cos(this.armAng * degToRad);
+		}
+		else {
+			// TODO Drop car if it's on
+		}
 	}
 
   	display()
