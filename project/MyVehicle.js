@@ -136,19 +136,30 @@
 
     this.materialGlass1 = new CGFappearance(this.scene);
     this.materialGlass1.setSpecular(.8, .8, .8, 1);
-	this.materialGlass1.setDiffuse(.2, .2, .2, 1);
+	this.materialGlass1.setDiffuse(.4, .4, .4, 1);
 	this.materialGlass1.loadTexture("../resources/images/glass1.png");
+
+	this.materialTakumi = new CGFappearance(this.scene);
+    this.materialTakumi.setSpecular(.8, .8, .8, 1);
+	this.materialTakumi.setDiffuse(.8, .8, .8, 1);
+	this.materialTakumi.loadTexture("../resources/images/takumi.jpg");
 
     this.materialVitral = new CGFappearance(this.scene);
     this.materialVitral.setSpecular(.8, .8, .8, 1);
-    this.materialVitral.setDiffuse(.2, .2, .2, 1);
+    this.materialVitral.setDiffuse(.6, .6, .6, 1);
     this.materialVitral.loadTexture("../resources/images/vitral.png");
 
-    this.glassPossibleAppearances = [this.materialGlassNone, this.materialGlass1, this.materialVitral];
+    this.glassPossibleAppearances = [this.materialGlassNone, this.materialGlass1, this.materialTakumi, this.materialVitral];
 
 
     //WHEEL MATERIAL ---------------------------------
     this.materialWheel = new CGFappearance(this.scene);
+
+    this.materialWheelDefault = new CGFappearance(this.scene);
+    this.materialWheelDefault.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialWheelDefault.setSpecular(0.1, 0.1, 0.1, 1);
+    this.materialWheelDefault.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.materialWheelDefault.loadTexture("../resources/images/wheel.jpg");
 
     this.materialWheelLolipop = new CGFappearance(this.scene);
     this.materialWheelLolipop.setAmbient(0.8, 0.8, 0.8, 1);
@@ -168,7 +179,7 @@
     this.materialWheelCookie.setDiffuse(0.2, 0.2, 0.2, 1);
     this.materialWheelCookie.loadTexture("../resources/images/cookie.png");
 
-    this.wheelPossibleAppearances = [this.materialWheelLolipop, this.materialWheelClock, this.materialWheelCookie];
+    this.wheelPossibleAppearances = [this.materialWheelDefault, this.materialWheelLolipop, this.materialWheelClock, this.materialWheelCookie];
 
 
     //HEADLIGHTS MATERIAL ---------------------------------
