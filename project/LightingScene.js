@@ -63,15 +63,15 @@ class LightingScene extends CGFscene
 		this.light2=true;
 
 		this.bodyAppearance = "none";
-		this.wheelAppearance="lolipop";
-		this.glassAppearance="none";
-		this.lightAppearance="none";
+		this.wheelAppearance= "lolipop";
+		this.glassAppearance= "none";
+		this.lightAppearance= "default";
 		this.terrainAppearance="rocky";
 
 		this.vehicleAppearances =["none",	"pineapple", "apple", "orange", "strawberry"];
 		this.wheelAppearances =["lolipop", "clock", "cookie"];
 		this.glassAppearances =["none", "glass", "vitral"];
-		this.lightAppearances=["none", "lanterna1", "lanterna2", "lanterna3"];
+		this.lightAppearances=["default", "lanterna1", "lanterna2", "lanterna3"];
 		this.terrainAppearances=["rocky", "grass", "sand"];
 
 		this.vehicleAppearanceList = {};

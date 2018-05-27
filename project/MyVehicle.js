@@ -96,8 +96,9 @@
 	this.materialBody = new CGFappearance(this.scene);
 
     this.materialBodyNone = new CGFappearance(this.scene);
+    this.materialBodyNone.setAmbient(0.8, 0.8, 0.8, 1);
     this.materialBodyNone.setSpecular(0.7, 0.7, 0.7, 1);
-    this.materialBodyNone.setDiffuse(.5, .5, .5, 1);
+    this.materialBodyNone.setDiffuse(.9, .9, .9, 1);
 
     this.materialBodyPineapple = new CGFappearance(this.scene);
     this.materialBodyPineapple.setAmbient(0.8, 0.8, 0.8, 1);
@@ -174,10 +175,11 @@
 
     this.materialHeadlights = new CGFappearance(this.scene);
 
-    this.materialHeadlightsNone = new CGFappearance(this.scene);
-    this.materialHeadlightsNone.setAmbient(0.8, 0.8, 0.8, 1);
-    this.materialHeadlightsNone.setSpecular(0.1, 0.1, 0.1, 1);
-    this.materialHeadlightsNone.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.materialHeadlightsDefault = new CGFappearance(this.scene);
+    this.materialHeadlightsDefault.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialHeadlightsDefault.setSpecular(0.1, 0.1, 0.1, 1);
+    this.materialHeadlightsDefault.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.materialHeadlightsDefault.loadTexture("../resources/images/headlight.png");
 
     this.materialHeadlights1 = new CGFappearance(this.scene);
     this.materialHeadlights1.setAmbient(0.8, 0.8, 0.8, 1);
@@ -197,7 +199,7 @@
     this.materialHeadlights3.setDiffuse(0.2, 0.2, 0.2, 1);
     this.materialHeadlights3.loadTexture("../resources/images/lanterna3.png");
 
-    this.headlightsPossibleAppearances = [this.materialHeadlightsNone, this.materialHeadlights1, this.materialHeadlights2, this.materialHeadlights3];
+    this.headlightsPossibleAppearances = [this.materialHeadlightsDefault, this.materialHeadlights1, this.materialHeadlights2, this.materialHeadlights3];
   }
 
 	initMovement(x, z)
@@ -486,9 +488,9 @@
 				this.scene.popMatrix();
 				this.scene.pushMatrix();
 					this.materialHeadlights.apply();
-					this.scene.translate(0, -.07, 0.03);
+					this.scene.translate(0, -.07, 0.05);
 					this.scene.rotate(-20 * degToRad, 1, 0, 0);
-					this.scene.scale(this.WIDTH *.15, .15, this.WIDTH *.15);
+					this.scene.scale(this.WIDTH *.19, .15, this.WIDTH *.17);
 					this.cube.display();
 				this.scene.popMatrix();
 			this.scene.popMatrix();
@@ -509,9 +511,9 @@
 				this.scene.popMatrix();
 				this.scene.pushMatrix();
 					this.materialHeadlights.apply();
-					this.scene.translate(0, -.07, 0.03);
+					this.scene.translate(0, -.07, 0.05);
 					this.scene.rotate(-20 * degToRad, 1, 0, 0);
-					this.scene.scale(this.WIDTH *.15, .15, this.WIDTH *.15);
+					this.scene.scale(this.WIDTH *.19, .15, this.WIDTH *.17);
 					this.cube.display();
 				this.scene.popMatrix();
 			this.scene.popMatrix();

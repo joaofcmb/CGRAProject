@@ -38,7 +38,7 @@ class MyInterface extends CGFinterface {
 
     this.gui.add(this.scene, 'glassAppearance', ['none', 'glass', 'vitral'] );
 
-    this.gui.add(this.scene, 'lightAppearance', ['none', 'lanterna1', 'lanterna2', 'lanterna3'] );
+    this.gui.add(this.scene, 'lightAppearance', ['default', 'lanterna1', 'lanterna2', 'lanterna3'] );
 
     this.gui.add(this.scene, 'terrainAppearance', ['rocky', 'grass', 'sand'] );
 
