@@ -36,10 +36,10 @@ class MyTrapeze extends CGFobject
         ];
 
         this.texCoords = [
-            this.minS, this.maxT,
-            this.maxT, this.maxS,
-            this.minS, this.minS,
-            this.maxT, this.minT
+						0, 1,
+						1, 1,
+            0, 0,
+            1, 0
         ];
 
 		this.primitiveType = this.scene.gl.TRIANGLES;

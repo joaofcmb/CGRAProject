@@ -48,26 +48,63 @@ class LightingScene extends CGFscene
 						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 5.6, 4.7, 3.4, 4.7, 6.5],
 						];
 
-		this.vehicle = new MyVehicle(this, 12, 0);
-		this.terrain = new MyTerrain(this, this.altimetry);
+		this.cylinder = new MyCylinder(this,10,10);
+		this.sphere = new MySphere(this, 10,10);
+		this.trapeze = new MyTrapSolid(this, 72, 85);
+		this.cube = new MyUnitCubeQuad(this, 10, 10);
 
-    	this.luz1=true;
-		this.luz2=true;
+		this.materialTeste = new CGFappearance(this);
+		this.materialTeste.setAmbient(0.8, 0.8, 0.8, 1);
+		this.materialTeste.setSpecular(1, 1, 1, 1);
+		this.materialTeste.setDiffuse(.5, .5, .5, 1);
+		this.materialTeste.loadTexture("../resources/images/orange.png");
+
+    this.light1=true;
+		this.light2=true;
+
+		this.bodyAppearance = "none";
+		this.wheelAppearance="lolipop";
+		this.glassAppearance="none";
+		this.lightAppearance="none";
+		this.terrainAppearance="rocky";
 
 		this.vehicleAppearances =["none",	"pineapple", "apple", "orange", "strawberry"];
+		this.wheelAppearances =["lolipop", "clock", "cookie"];
+		this.glassAppearances =["none", "glass", "vitral"];
+		this.lightAppearances=["none", "lanterna1", "lanterna2", "lanterna3"];
+		this.terrainAppearances=["rocky", "grass", "sand"];
 
 		this.vehicleAppearanceList = {};
+		this.wheelAppearanceList = {};
+		this.glassAppearanceList = {};
+		this.lightAppearanceList = {};
+		this.terrainAppearanceList = {};
 
 		for (var i = 0; i < this.vehicleAppearances.length; i++) {
 			this.vehicleAppearanceList[this.vehicleAppearances[i]] = i;
 		}
+		for (var i = 0; i < this.wheelAppearances.length; i++) {
+			this.wheelAppearanceList[this.wheelAppearances[i]] = i;
+		}
+		for (var i = 0; i < this.glassAppearances.length; i++) {
+			this.glassAppearanceList[this.glassAppearances[i]] = i;
+		}
+		for (var i = 0; i < this.lightAppearances.length; i++) {
+			this.lightAppearanceList[this.lightAppearances[i]] = i;
+		}
+		for (var i = 0; i < this.terrainAppearances.length; i++) {
+			this.terrainAppearanceList[this.terrainAppearances[i]] = i;
+		}
 
 		this.currVehicleAppearance = 0;
+		this.currWheelAppearance = 0;
+		this.currGlassAppearance = 0;
+		this.currLightAppearance = 0;
+		this.currTerrainAppearance = 0;
 
 		this.vehicle = new MyVehicle(this, 0, -5);
 		this.crane 	 = new MyCrane(this, 0, 3);
 		this.terrain = new MyTerrain(this, this.altimetry);
-
 	};
 
 	initCameras()
@@ -99,7 +136,9 @@ class LightingScene extends CGFscene
 
 		this.vehicle.update(this.deltaTime);
 
-		this.vehicle.updateTexture(this.currVehicleAppearance);
+		// console.log(this.currTerrainAppearance);
+		this.terrain.updateTexture(this.currTerrainAppearance);
+		this.vehicle.updateTexture(this.currVehicleAppearance, this.currWheelAppearance, this.currGlassAppearance, this.currLightAppearance);
 	}
 
 	updateLights()
@@ -110,14 +149,14 @@ class LightingScene extends CGFscene
 
 	lightsControl()
 	{
-		if (this.luz1) {
+		if (this.light1) {
 			this.lights[1].enable();
 		}
 		else{
 			this.lights[1].disable();
 		}
 
-		if (this.luz2) {
+		if (this.light2) {
 			this.lights[2].enable();
 		}
 		else{
@@ -135,20 +174,12 @@ class LightingScene extends CGFscene
 		}
 	}
 
-	none(){
-		this.currVehicleAppearance = this.vehicleAppearanceList["none"]
-	}
-	pineapple(){
-		this.currVehicleAppearance = this.vehicleAppearanceList["pineapple"]
-	}
-	apple(){
-		this.currVehicleAppearance = this.vehicleAppearanceList["apple"]
-	}
-	orange(){
-		this.currVehicleAppearance = this.vehicleAppearanceList["orange"]
-	}
-	strawberry(){
-		this.currVehicleAppearance = this.vehicleAppearanceList["strawberry"]
+	updateTexture(){
+		this.currVehicleAppearance = this.vehicleAppearanceList[this.bodyAppearance]
+		this.currWheelAppearance = this.wheelAppearanceList[this.wheelAppearance]
+		this.currGlassAppearance = this.glassAppearanceList[this.glassAppearance]
+		this.currLightAppearance = this.lightAppearanceList[this.lightAppearance]
+		this.currTerrainAppearance = this.terrainAppearanceList[this.terrainAppearance]
 	}
 
 	checkKeys()
@@ -214,6 +245,8 @@ class LightingScene extends CGFscene
 
 		this.lightsControl();
 
+		this.updateTexture();
+
 		// this.updateTextures();
 
 		if(axisControl) {
@@ -222,10 +255,30 @@ class LightingScene extends CGFscene
 		// ---- END Background, camera and axis setup
 
 		// ---- BEGIN Scene drawing section
+		this.pushMatrix();
     	this.terrain.display();
     	this.vehicle.display();
-    	this.crane.display();
+      this.crane.display();
 
+		this.popMatrix();
+
+		this.materialTeste.apply();
+
+		this.pushMatrix();
+			this.translate(-5, 0, -30);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.cylinder.display();
+			this.pushMatrix();
+				this.translate(5, 0, 0);
+				this.cube.display();
+				this.translate(5, 0, 0);
+				this.sphere.display();
+				this.translate(5, 0, 0);
+				this.rotate(Math.PI/2, 1, 0, 0);
+				this.trapeze.updateTexture(this.materialTeste)
+				this.trapeze.display();
+			this.popMatrix();
+		this.popMatrix();
 		// ---- END Scene drawing section
 	};
 };

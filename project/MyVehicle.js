@@ -88,48 +88,115 @@
 
 	initMaterials()
 	{
-		this.materialWheel = new CGFappearance(this.scene);
-		this.materialWheel.setAmbient(0.8, 0.8, 0.8, 1);
-		this.materialWheel.setSpecular(0.1, 0.1, 0.1, 1);
-		this.materialWheel.setDiffuse(0.2, 0.2, 0.2, 1);
-		this.materialWheel.loadTexture("../resources/images/lolipop.png");
+
+    // BODY MATERIALS ---------------------------------
 
 		this.materialBody = new CGFappearance(this.scene);
 
-		this.materialGlass = new CGFappearance(this.scene);
-		this.materialGlass.setSpecular(.8, .8, .8, 1);
-		this.materialGlass.setDiffuse(.2, .2, .2, 1);
+    this.materialBodyNone = new CGFappearance(this.scene);
+    this.materialBodyNone.setSpecular(0.7, 0.7, 0.7, 1);
+    this.materialBodyNone.setDiffuse(.5, .5, .5, 1);
 
-		this.materialBodyPineapple = new CGFappearance(this.scene);
-		this.materialBodyPineapple.setAmbient(0.8, 0.8, 0.8, 1);
-		this.materialBodyPineapple.setSpecular(1, 1, 1, 1);
-		this.materialBodyPineapple.setDiffuse(.5, .5, .5, 1);
-		this.materialBodyPineapple.loadTexture("../resources/images/pineapple.png");
+    this.materialBodyPineapple = new CGFappearance(this.scene);
+    this.materialBodyPineapple.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialBodyPineapple.setSpecular(1, 1, 1, 1);
+    this.materialBodyPineapple.setDiffuse(.5, .5, .5, 1);
+    this.materialBodyPineapple.loadTexture("../resources/images/pineapple.png");
 
-		this.materialBodyApple = new CGFappearance(this.scene);
-		this.materialBodyApple.setAmbient(0.8, 0.8, 0.8, 1);
-		this.materialBodyApple.setSpecular(0.7, 0.7, 0.7, 1);
-		this.materialBodyApple.setDiffuse(.5, .5, .5, 1);
-		this.materialBodyApple.loadTexture("../resources/images/apple.png");
+    this.materialBodyApple = new CGFappearance(this.scene);
+    this.materialBodyApple.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialBodyApple.setSpecular(0.7, 0.7, 0.7, 1);
+    this.materialBodyApple.setDiffuse(.5, .5, .5, 1);
+    this.materialBodyApple.loadTexture("../resources/images/apple.png");
 
-		this.materialBodyOrange = new CGFappearance(this.scene);
-		this.materialBodyOrange.setAmbient(0.8, 0.8, 0.8, 1);
-		this.materialBodyOrange.setSpecular(0.7, 0.7, 0.7, 1);
-		this.materialBodyOrange.setDiffuse(.5, .5, .5, 1);
-		this.materialBodyOrange.loadTexture("../resources/images/orange.png");
+    this.materialBodyOrange = new CGFappearance(this.scene);
+    this.materialBodyOrange.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialBodyOrange.setSpecular(0.7, 0.7, 0.7, 1);
+    this.materialBodyOrange.setDiffuse(.5, .5, .5, 1);
+    this.materialBodyOrange.loadTexture("../resources/images/orange.png");
 
-		this.materialBodyStrawberry = new CGFappearance(this.scene);
-		this.materialBodyStrawberry.setAmbient(0.8, 0.8, 0.8, 1);
-		this.materialBodyStrawberry.setSpecular(0.7, 0.7, 0.7, 1);
-		this.materialBodyStrawberry.setDiffuse(.5, .5, .5, 1);
-		this.materialBodyStrawberry.loadTexture("../resources/images/strawberry.png");
+    this.materialBodyStrawberry = new CGFappearance(this.scene);
+    this.materialBodyStrawberry.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialBodyStrawberry.setSpecular(0.7, 0.7, 0.7, 1);
+    this.materialBodyStrawberry.setDiffuse(.5, .5, .5, 1);
+    this.materialBodyStrawberry.loadTexture("../resources/images/strawberry.png");
 
-		this.materialBodyNone = new CGFappearance(this.scene);
-		this.materialBodyNone.setSpecular(0.7, 0.7, 0.7, 1);
-		this.materialBodyNone.setDiffuse(.5, .5, .5, 1);
+    this.bodyPossibleAppearances = [this.materialBodyNone, this.materialBodyPineapple, this.materialBodyApple, this.materialBodyOrange, this.materialBodyStrawberry];
 
-		this.possibleAppearances = [this.materialBodyNone, this.materialBodyPineapple, this.materialBodyApple, this.materialBodyOrange, this.materialBodyStrawberry];
-	}
+
+    // GLASS MATERIALS ---------------------------------
+    this.materialGlass = new CGFappearance(this.scene);
+
+    this.materialGlassNone = new CGFappearance(this.scene);
+		this.materialGlassNone.setSpecular(.8, .8, .8, 1);
+		this.materialGlassNone.setDiffuse(.2, .2, .2, 1);
+
+    this.materialGlass1 = new CGFappearance(this.scene);
+    this.materialGlass1.setSpecular(.8, .8, .8, 1);
+		this.materialGlass1.setDiffuse(.2, .2, .2, 1);
+		this.materialGlass1.loadTexture("../resources/images/glass1.png");
+
+    this.materialVitral = new CGFappearance(this.scene);
+    this.materialVitral.setSpecular(.8, .8, .8, 1);
+    this.materialVitral.setDiffuse(.2, .2, .2, 1);
+    this.materialVitral.loadTexture("../resources/images/vitral.png");
+
+    this.glassPossibleAppearances = [this.materialGlassNone, this.materialGlass1, this.materialVitral];
+
+
+    //WHEEL MATERIAL ---------------------------------
+    this.materialWheel = new CGFappearance(this.scene);
+
+    this.materialWheelLolipop = new CGFappearance(this.scene);
+    this.materialWheelLolipop.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialWheelLolipop.setSpecular(0.1, 0.1, 0.1, 1);
+    this.materialWheelLolipop.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.materialWheelLolipop.loadTexture("../resources/images/lolipop.png");
+
+    this.materialWheelClock = new CGFappearance(this.scene);
+    this.materialWheelClock.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialWheelClock.setSpecular(0.1, 0.1, 0.1, 1);
+    this.materialWheelClock.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.materialWheelClock.loadTexture("../resources/images/clock.png");
+
+    this.materialWheelCookie = new CGFappearance(this.scene);
+    this.materialWheelCookie.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialWheelCookie.setSpecular(0.1, 0.1, 0.1, 1);
+    this.materialWheelCookie.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.materialWheelCookie.loadTexture("../resources/images/cookie.png");
+
+    this.wheelPossibleAppearances = [this.materialWheelLolipop, this.materialWheelClock, this.materialWheelCookie];
+
+
+    //HEADLIGHTS MATERIAL ---------------------------------
+
+    this.materialHeadlights = new CGFappearance(this.scene);
+
+    this.materialHeadlightsNone = new CGFappearance(this.scene);
+    this.materialHeadlightsNone.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialHeadlightsNone.setSpecular(0.1, 0.1, 0.1, 1);
+    this.materialHeadlightsNone.setDiffuse(0.2, 0.2, 0.2, 1);
+
+    this.materialHeadlights1 = new CGFappearance(this.scene);
+    this.materialHeadlights1.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialHeadlights1.setSpecular(0.1, 0.1, 0.1, 1);
+    this.materialHeadlights1.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.materialHeadlights1.loadTexture("../resources/images/lanterna1.png");
+
+    this.materialHeadlights2 = new CGFappearance(this.scene);
+    this.materialHeadlights2.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialHeadlights2.setSpecular(0.1, 0.1, 0.1, 1);
+    this.materialHeadlights2.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.materialHeadlights2.loadTexture("../resources/images/lanterna2.png");
+
+    this.materialHeadlights3 = new CGFappearance(this.scene);
+    this.materialHeadlights3.setAmbient(0.8, 0.8, 0.8, 1);
+    this.materialHeadlights3.setSpecular(0.1, 0.1, 0.1, 1);
+    this.materialHeadlights3.setDiffuse(0.2, 0.2, 0.2, 1);
+    this.materialHeadlights3.loadTexture("../resources/images/lanterna3.png");
+
+    this.headlightsPossibleAppearances = [this.materialHeadlightsNone, this.materialHeadlights1, this.materialHeadlights2, this.materialHeadlights3];
+  }
 
 	initMovement(x, y)
 	{
@@ -226,13 +293,24 @@
 		}
 	}
 
- 	updateTexture(currVehicleAppearance) {
-    	var appearance = this.possibleAppearances[currVehicleAppearance]
-    	this.materialBody = appearance;
-  	}
+  updateTexture(currVehicleAppearance, currWheelAppearance, currGlassAppearance,currLightAppearance){
+    this.materialBody = this.bodyPossibleAppearances[currVehicleAppearance];
+    this.bBumper.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
+    this.carTop.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
+    this.carBot.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
+    this.fdBumper.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
+    this.fmBumper.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
+    this.fuBumper.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
+    this.leftMirror.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
+    this.rightMirror.updateTexture(this.bodyPossibleAppearances[currVehicleAppearance]);
+    this.upperLight.updateTexture(this.headlightsPossibleAppearances[currLightAppearance]);
 
+    this.materialGlass = this.glassPossibleAppearances[currGlassAppearance];
+    this.materialWheel = this.wheelPossibleAppearances[currWheelAppearance];
+    this.materialHeadlights = this.headlightsPossibleAppearances[currLightAppearance];
+  }
 
-  	display()
+  display()
 	{
 		this.scene.pushMatrix();
 			this.scene.translate(this.xCarPos, .35, this.zCarPos);
@@ -344,6 +422,7 @@
 			this.scene.popMatrix();
 
 			// POP UP HEADLIGHTS -----------------------------
+      this.materialHeadlights.apply();
 			this.scene.pushMatrix();
 				this.scene.translate(-this.WIDTH/2 + .19, 0.375, this.LENGTH/2 -.27 + .001 * this.popUpAngle);
 				this.scene.rotate(-this.popUpAngle * degToRad, 1, 0, 0);
@@ -390,7 +469,7 @@
 			this.scene.popMatrix();
 
 			// WINDOWS -----------------------------
-			this.materialGlass.apply();
+      this.materialGlass.apply();
 			// Windshield (Front)
 			this.scene.pushMatrix();
 				this.scene.translate(0, .9, .45);
