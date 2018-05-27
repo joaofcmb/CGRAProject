@@ -21,13 +21,13 @@ class LightingScene extends CGFscene
 
 		this.setUpdatePeriod(1/60);
 
-   	this.enableTextures(true);
+   		this.enableTextures(true);
 
 		this.initCameras();
 
 		this.initLights();
 
-		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		this.gl.clearColor(179/255,236/255,255/255,1); 
 		this.gl.clearDepth(100.0);
 		this.gl.enable(this.gl.DEPTH_TEST);
 		this.gl.enable(this.gl.CULL_FACE);
@@ -102,7 +102,8 @@ class LightingScene extends CGFscene
 		this.currLightAppearance = 0;
 		this.currTerrainAppearance = 0;
 
-		this.vehicle = new MyVehicle(this, 0, 0);
+		this.vehicle = new MyVehicle(this, 0, -5);
+		this.crane 	 = new MyCrane(this, 0, 3);
 		this.terrain = new MyTerrain(this, this.altimetry);
 	};
 
@@ -230,7 +231,6 @@ class LightingScene extends CGFscene
 
 		// Clear image and depth buffer everytime we update the scene
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-		// this.gl.clearColor(179/255,236/255,255/255,1);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 		// Initialize Model-View matrix as identity (no transformation)
@@ -258,6 +258,8 @@ class LightingScene extends CGFscene
 		this.pushMatrix();
     	this.terrain.display();
     	this.vehicle.display();
+      this.crane.display();
+
 		this.popMatrix();
 
 		this.materialTeste.apply();

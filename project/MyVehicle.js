@@ -33,7 +33,7 @@
 		// Physics / Animation Constants
 		this.THROTTLE	= .001; 	// Positive acceleration of vehicle
 		this.BRAKES		= .001; 	// Negative acceleration of vehicle
-		this.MAXVEL		= 30;		// Maximum Velocity allowed for car
+		this.MAXVEL		= .05;		// Maximum Velocity allowed for car
 
 		this.STEERING	= 2; 		// Angular Velocity of steering (independent of delta)
 		this.TURNANGLE  = 35;		// Max steering angle for car
