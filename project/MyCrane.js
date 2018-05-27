@@ -19,6 +19,9 @@
 		// Physics / Animation Constants
 		this.STEERING	 = 2; 		// Angular Velocity of joints
 
+		this.PICKUPX	 = 0;
+		this.PICKUPZ	 = 17;
+
 		// Angles in degrees, starting from the Y axis
 		this.PICKUPBASE  = 0;		// Angle of Base Joint in Pickup Position 
 		this.PICKUPARM 	 = 0;		// Angle of Arm Joint in Pickup Position 
@@ -36,14 +39,14 @@
 	initMaterials()
 	{
 		this.materialBase = new CGFappearance(this.scene);
-		this.materialBase.setAmbient(0.8, 0.8, 0.8, 1);
+		this.materialBase.setAmbient(0.3, 0.3, 0.3, 1);
 		this.materialBase.setSpecular(0.1, 0.1, 0.1, 1);
-		this.materialBase.setDiffuse(0.2, 0.2, 0.2, 1);
+		this.materialBase.setDiffuse(0.1, 0.1, 0.1, 1);
 
 		this.materialArm = new CGFappearance(this.scene);
 		this.materialArm.setAmbient(0.8, 0.8, 0.8, 1);
 		this.materialArm.setSpecular(0.6, 0.6, 0.6, 1);
-		this.materialArm.setDiffuse(0.2, 0.2, 0.2, 1);
+		this.materialArm.setDiffuse(0.5, 0.7, 0.4, 1);
 	}
 
 	initMovement(x, z)
@@ -79,6 +82,7 @@
 
 			// BASE HINGE
 			this.scene.pushMatrix();
+				this.materialBase.apply();
 				this.scene.scale(this.BASESIZE, 1, this.BASESIZE);
 				this.scene.rotate(Math.PI/2, 1, 0, 0);
 				this.wheel.display();
@@ -86,28 +90,30 @@
 			
 			// LOWER ARM
 			this.scene.pushMatrix();
+				this.materialArm.apply();
 				this.scene.translate(0, this.dyLowerArm / 2 - 1, this.dzLowerArm / 2);
 				this.scene.rotate(this.PITCH * degToRad, 1, 0, 0);
-				this.scene.scale(1, this.ARMLENGTH, 1);
+				this.scene.scale(.5, this.ARMLENGTH, 1);
 				this.cube.display();
 			this.scene.popMatrix();
 
 			this.scene.pushMatrix();	 
 				this.scene.translate(0, this.dyLowerArm, this.dzLowerArm);
 
-				// ARM HINGE
-				this.scene.pushMatrix();
-					this.scene.translate(-.5, -1, 0);
-					this.scene.rotate(Math.PI/2, 0, 1, 0);
-					this.wheel.display();
-				this.scene.popMatrix();
-
 				// UPPER ARM
 				this.scene.pushMatrix();
 					this.scene.translate(0, this.dyUpperArm / 2 - 1, this.dzUpperArm / 2);
 					this.scene.rotate(this.armAng * degToRad, 1, 0, 0);
-					this.scene.scale(1, this.ARMLENGTH, 1);
+					this.scene.scale(.5, this.ARMLENGTH, 1);
 					this.cube.display();
+				this.scene.popMatrix();
+
+				// ARM HINGE
+				this.materialBase.apply();
+				this.scene.pushMatrix();
+					this.scene.translate(-.5, -1, 0);
+					this.scene.rotate(Math.PI/2, 0, 1, 0);
+					this.wheel.display();
 				this.scene.popMatrix();
 
 				this.scene.pushMatrix();
@@ -129,6 +135,14 @@
 					this.scene.popMatrix();
 				this.scene.popMatrix();
 			this.scene.popMatrix();
+		this.scene.popMatrix();
+
+		// Pickup Marker
+		this.scene.pushMatrix();
+			this.materialArm.apply();
+			this.scene.translate(this.PICKUPX, 0, this.PICKUPZ);
+			this.scene.scale(6, .1, 3);
+			this.cube.display();
 		this.scene.popMatrix();
 	};
  };
