@@ -64,7 +64,8 @@ class LightingScene extends CGFscene
 
 		this.currVehicleAppearance = 0;
 
-		this.vehicle = new MyVehicle(this, 0, 0);
+		this.vehicle = new MyVehicle(this, 0, -5);
+		this.crane 	 = new MyCrane(this, 0, 3);
 		this.terrain = new MyTerrain(this, this.altimetry);
 
 	};
@@ -223,6 +224,7 @@ class LightingScene extends CGFscene
 		// ---- BEGIN Scene drawing section
     	this.terrain.display();
     	this.vehicle.display();
+    	this.crane.display();
 
 		// ---- END Scene drawing section
 	};
