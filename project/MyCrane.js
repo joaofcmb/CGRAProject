@@ -4,9 +4,11 @@
  */
  class MyCrane extends CGFobject
  {
-	constructor(scene, x, z)
+	constructor(scene, x, z, vehicle)
 	{
 		super(scene);
+
+		this.vehicle = vehicle;
 
 		// Dimension Constants
 		this.ARMLENGTH 	 = 10;
@@ -19,8 +21,14 @@
 		// Physics / Animation Constants
 		this.STEERING	 = .1; 		// Angular Velocity of joints
 
+		// Pickup and Drop Areas Position Constants
 		this.PICKUPX	 = 0;
 		this.PICKUPZ	 = 17;
+
+		this.DROPX 		 = -8.5;
+		this.DROPY		 = 5;
+		this.DROPZ 		 = -8.5;
+
 
 		// Angles in degrees, starting from the Y axis
 		this.PICKUPBASE  = 0;		// Angle of Base Joint in Pickup Position 
@@ -59,8 +67,9 @@
 		this.baseAng = this.DROPBASE;
 		this.armAng  = this.DROPARM;
 
-		// Flag for the crane to go to the pickup area
-		this.pickingUp = false;
+		// Booleans representing the crane state
+		this.pickingUp = false; // Flag for the crane to go to the pickup area
+		this.hasVehicle = false; // Flag for the crane to handle the car being carried
 
 		// Useful Variables for display()
 		this.dzLowerArm	 = this.ARMLENGTH * Math.sin(this.PITCH * degToRad);
@@ -80,6 +89,8 @@
 
 	update(delta)
 	{
+		this.checkPickUp(this.vehicle.getXPos(), this.vehicle.getZPos());
+
 		var dAng = this.STEERING * delta;
 
 		if (this.pickingUp) {
@@ -90,7 +101,9 @@
 			if (this.baseAng == this.PICKUPBASE && this.armAng == this.PICKUPARM) {
 				this.pickingUp = false;
 				
-				// TODO Stick car to magnet
+				// Stick car to magnet
+				this.hasVehicle = true;
+				this.vehicle.freeze();
 			}
 			else {
 				this.dzUpperArm	 = this.ARMLENGTH * Math.sin(this.armAng * degToRad);
@@ -105,8 +118,15 @@
 			this.dyUpperArm	 = this.ARMLENGTH * Math.cos(this.armAng * degToRad);
 		}
 		else {
-			// TODO Drop car if it's on
+			// Drop car if it's attached
+			if (this.hasVehicle) {
+
+				this.vehicle.drop(this.DROPX, this.DROPY, this.DROPZ, this.DROPBASE - this.PICKUPBASE);
+				this.hasVehicle = false;
+			}
 		}
+
+		return this.hasVehicle;
 	}
 
   	display()
@@ -168,6 +188,14 @@
 						this.scene.rotate(Math.PI/2, 1, 0, 0);
 						this.wheel.display();
 					this.scene.popMatrix();
+
+					// VEHICLE
+					if (this.hasVehicle) {
+						this.scene.pushMatrix();
+							this.scene.translate(0, -this.CABLELENGTH - 2.6, 0);
+							this.vehicle.display();
+						this.scene.popMatrix();
+					}
 				this.scene.popMatrix();
 			this.scene.popMatrix();
 		this.scene.popMatrix();

@@ -48,9 +48,6 @@ class LightingScene extends CGFscene
 						 [6.0, 6.6, 7.8, 7.6, 6.5, 4.6, 5.6, 4.7, 3.4, 4.7, 6.5],
 						];
 
-		this.vehicle = new MyVehicle(this, 12, 0);
-		this.terrain = new MyTerrain(this, this.altimetry);
-
     	this.luz1=true;
 		this.luz2=true;
 
@@ -65,7 +62,9 @@ class LightingScene extends CGFscene
 		this.currVehicleAppearance = 0;
 
 		this.vehicle = new MyVehicle(this, 0, -5);
-		this.crane 	 = new MyCrane(this, 0, 3);
+		this.crane 	 = new MyCrane(this, 0, 3, this.vehicle);
+		this.craneHasVehicle = false;
+		
 		this.terrain = new MyTerrain(this, this.altimetry);
 
 	};
@@ -102,8 +101,7 @@ class LightingScene extends CGFscene
 		this.vehicle.updateTexture(this.currVehicleAppearance);
 
 		// Update Crane
-		this.crane.checkPickUp(this.vehicle.getXPos(), this.vehicle.getZPos());
-		this.crane.update(this.deltaTime);
+		this.craneHasVehicle = this.crane.update(this.deltaTime);
 	}
 
 	updateLights()
@@ -227,7 +225,7 @@ class LightingScene extends CGFscene
 
 		// ---- BEGIN Scene drawing section
     	this.terrain.display();
-    	this.vehicle.display();
+    	if (!this.craneHasVehicle)	this.vehicle.display();
     	this.crane.display();
 
 		// ---- END Scene drawing section

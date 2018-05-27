@@ -4,7 +4,7 @@
  */
  class MyVehicle extends CGFobject
  {
-	constructor(scene, x, y)
+	constructor(scene, x, z)
 	{
 		/* CAR CHASSIS (Toyota Sprinter Trueno AE86)
 			Real Car Specs:
@@ -40,7 +40,9 @@
 		this.TURNBACK	= 3;		// Angular Velocity of turn stabalization (independent of delta)
 
 		this.POPUP		= .05;		// Angular Velocity of pop up headlights
-		this.MAXPOPUP 	= 70;
+		this.MAXPOPUP 	= 70;		// Maximum Angle the headlights pop up
+
+		this.FALLVEL 	= .02;		// Fall Velocity (When dropped by crane)
 
 		this.cube 		= new MyUnitCubeQuad(this.scene);
 		this.prism 		= new MyPrism(this.scene, 4, 10);
@@ -56,7 +58,7 @@
 
 		this.initMaterials();
 
-		this.initMovement(x || 0, y || 0);
+		this.initMovement(x || 0, z || 0);
 
 		// Pop Up Headlights
 		this.popUpAngle = 0;
@@ -131,11 +133,12 @@
 		this.possibleAppearances = [this.materialBodyNone, this.materialBodyPineapple, this.materialBodyApple, this.materialBodyOrange, this.materialBodyStrawberry];
 	}
 
-	initMovement(x, y)
+	initMovement(x, z)
 	{
 		// Car Position and Rotation
 		this.xCarPos = x;
-		this.zCarPos = y;
+		this.yCarPos = .35;
+		this.zCarPos = z;
 		this.carAng = 0;
 
 		// Angle of Wheels (Wheel Spin)
@@ -143,20 +146,26 @@
 
 		// angle of front wheels in respect to the front of the car
 		this.turnAng = 0;
+
 		// linear velocity of car. Direction depends on the turn angle
 		this.velocity = 0;
 
 		this.turning = false;
+
+		this.isFrozen = false;
+		this.dropped = false;
 	}
 
 	// External Methods (To be accessed by other classes)
 	throttle()
 	{
+		if (this.isFrozen)	return;
 		this.velocity = Math.min(this.velocity + this.THROTTLE, this.MAXVEL);
 	}
 
 	brake()
 	{
+		if (this.isFrozen)	return;
 		this.velocity = Math.max(this.velocity - this.BRAKES, -this.MAXVEL);
 	}
 
@@ -190,6 +199,24 @@
 		return this.zCarPos;
 	}
 
+	freeze()
+	{
+		this.isFrozen = true;
+
+		this.xCarPos = 0;
+		this.zCarPos = 0;
+		this.velocity = 0;
+	}
+
+	drop(x, y, z, dAng)
+	{
+		this.dropped = true;
+
+		this.xCarPos = x;
+		this.yCarPos = y;
+		this.zCarPos = z;
+		this.carAng += dAng;
+	}
 
 	update(delta)
 	{
@@ -235,6 +262,15 @@
 			if (this.popUpAngle == 0 || this.popUpAngle == this.MAXPOPUP)
 				this.isPopping = false;
 		}
+
+		// update height (dropped from crane)
+		if (this.dropped) {
+			this.yCarPos = Math.max(.35, this.yCarPos - this.FALLVEL * delta);
+			if (this.yCarPos == .35)	{
+				this.isFrozen = false;
+				this.dropped = false;	
+			}
+		}
 	}
 
  	updateTexture(currVehicleAppearance) {
@@ -244,9 +280,9 @@
 
 
   	display()
-	{
+	{		
 		this.scene.pushMatrix();
-			this.scene.translate(this.xCarPos, .35, this.zCarPos);
+			this.scene.translate(this.xCarPos, this.yCarPos, this.zCarPos);
 			this.scene.rotate(this.carAng * degToRad, 0, 1, 0);
 
 			// CAR WHEELS ---------------------------------
